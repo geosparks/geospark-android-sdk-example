@@ -24,7 +24,7 @@ Download this project and open it in Android Studio.
 
 4. Import your google-services.json file into app folder. Follow the instructions here to get one https://support.google.com/firebase/answer/7015592
 
-## Installation
+## Installation into your Application
 
 Installing the GeoSpark SDK is done in 3 steps.
 
@@ -87,31 +87,75 @@ dependencies {
 
 The SDK needs an User ID object to identify the device. The SDK has a convenience method `createUser()` to create a user which returns USer ID. 
 
+```
+//Create a User for given deviceToken on GeoSpark Server. 
 
+GeoSpark.createUser(this, deviceToken,
+  new GeoSparkCallback() {
+            @Override
+            public void success(@NonNull SuccessResponse successResponse) {
+               successResponse.getUserID();
+                
+               // Handle createUser success here, if required
+               // On UserLogin success
+               onUserLoginSuccess();
+            }
 
+            @Override
+            public void failure(@NonNull ErrorResponse errorResponse) {
+                // Handle createUser Failure here, if required
+                errorResponse.getErrorMessage();
+                        
+            }
+        });        
+```
 
 ## Get User
 
 If you already have an User ID object. The SDK has a convenience method `getUser()` to to start the session for the existing user.
 
+```
+/**
+*Implement your API call for User Login and get back a GeoSpark
+*UserId from your API Server to be configured in the GeoSpark SDK
+*along with deviceToken.
+*/
 
+GeoSpark.getUser(this,userID, deviceToken,
+  new GeoSparkCallback() {
+            @Override
+            public void success(@NonNull SuccessResponse successResponse) {
+               successResponse.getUserID();
+                
+               // Handle getUser success here, if required
+               // On UserLogin success
+               onUserLoginSuccess();
+            }
 
+            @Override
+            public void failure(@NonNull ErrorResponse errorResponse) {
+                // Handle getUser Failure here, if required
+                errorResponse.getErrorMessage();
+                        
+            }
+        });        
+```
 
 ## Start Location Tracking
 
 To start tracking the location, use the `startLocationTracking()` method. You can keep SDK to track location, or turn it off if you want to stop tracking the user at any point of time using the stopLocationTracking()  method.
 
-
-
+```
+GeoSpark.startLocationTracking(this);
+```
 
 ## Stop Location Tracking
 
 You can stop tracking the user at any point of time using the `stopLocationTracking()` method.
 
-
-
-
-
+```
+GeoSpark.stopLocationTracking(this);
+```
 
 ## View Dashboard
 
