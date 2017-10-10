@@ -6,7 +6,23 @@ GeoSpark Android Documentation link: https://dashboard.geospark.co/docs/android/
 
 ## Example App
 
-Import this project into Android Studio and press run. You may be prompted to install the necessary platform versions.
+### To get started:
+
+Download this project and open it in Android Studio.
+
+1. [Request](https://geospark.co) for a GeoSpark developer account to get your SDK key and Secret.
+
+2. In the projects MainActivity, update this line `GeoSpark.initialize(this,”YOUR-SDK-KEY”,”YOUR-SECRET”);` to contain your GeoSpark SDK key and Secret.
+
+3. Update the AndroidManifest.xml file to contain your google app ID and enable Google Maps Android API for your project. (you can get one here: https://console.developers.google.com/)
+
+```
+<meta-data
+  android:name="com.google.android.geo.API_KEY"
+  android:value="YOUR-GOOGLE-APP-ID" />
+```
+
+4. Import your google-services.json file into app folder. Follow the instructions here to get one https://support.google.com/firebase/answer/7015592
 
 ## Installation
 
