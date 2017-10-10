@@ -42,8 +42,40 @@ Once Gradle is finished (only a few seconds), click `File > Project Structure` a
 To enable location, call the `requestPermissions` and `requestLocationServices` method. For Android 6.0 and above, calling this method will trigger a location permission popup that the user has to allow.
 
 ```
-GeoSpark.requestPermission(this);
-GeoSpark.requestLocationServices(this);
+/**
+* Call this method to check Location Settings before proceeding for User
+* Login
+*/
+     
+if (!GeoSpark.checkPermission(MainActivity.this)) {
+            GeoSpark.requestPermission(MainActivity.this);
+        } else if (!GeoSpark.checkLocationServices(this)) {
+            GeoSpark.requestLocationServices(this);
+        } else {
+            GeoSpark.startLocationTracking(this);
+        }
+
+@Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case GeoSpark.REQUEST_CODE_LOCATION_PERMISSION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                    }
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GeoSpark.REQUEST_CODE_LOCATION_ENABLED) {
+        }
+    }
 ```
 
 Location popup for Android 6.0 and above:
@@ -87,6 +119,13 @@ dependencies {
 
 The SDK needs an User ID object to identify the device. The SDK has a convenience method `createUser()` to create a user which returns USer ID. 
 
+Method parameters
+
+| Parameter | Description |
+|-----------|-------------|
+| deviceToken  | deviceToken of the device |
+
+
 ```
 //Create a User for given deviceToken on GeoSpark Server. 
 
@@ -113,6 +152,13 @@ GeoSpark.createUser(this, deviceToken,
 ## Get User
 
 If you already have an User ID object. The SDK has a convenience method `getUser()` to to start the session for the existing user.
+
+Method parameters
+
+| Parameter    | Description |
+|--------------|-------------|
+| userID       | User ID from your API Server |
+| deviceToken  | deviceToken of the device |
 
 ```
 /**
