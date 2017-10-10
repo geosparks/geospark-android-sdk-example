@@ -78,8 +78,6 @@ if (!GeoSpark.checkPermission(MainActivity.this)) {
     }
 ```
 
-Location popup for Android 6.0 and above:
-
 ### Initialize the SDK
 
 To initialize the SDK, you must call the `GeoSpark.initialize` method when your app is started.
