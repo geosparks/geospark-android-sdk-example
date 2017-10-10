@@ -121,9 +121,9 @@ The SDK needs an User ID object to identify the device. The SDK has a convenienc
 
 Method parameters
 
-| Parameter | Description |
-|-----------|-------------|
-| deviceToken  | deviceToken of the device |
+| Parameter    | Description |
+|--------------|-------------|
+| deviceToken  | Device Token |
 
 
 ```
@@ -158,7 +158,7 @@ Method parameters
 | Parameter    | Description |
 |--------------|-------------|
 | userID       | User ID from your API Server |
-| deviceToken  | deviceToken of the device |
+| deviceToken  | Device Token |
 
 ```
 /**
