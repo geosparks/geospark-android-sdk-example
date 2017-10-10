@@ -24,7 +24,7 @@ Download this project and open it in Android Studio.
 
 4. Import your google-services.json file into app folder. Follow the instructions here to get one https://support.google.com/firebase/answer/7015592
 
-## Installation into your Application
+# Installation into your Application
 
 Installing the GeoSpark SDK is done in 3 steps.
 
