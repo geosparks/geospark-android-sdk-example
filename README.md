@@ -60,6 +60,29 @@ You should call this method in your Main Activity's onCreate method. Put in your
 
 [Request](https://geospark.co) for SDK keys if you don't have already.
 
+### Set up Firebase and the FCM SDK (Optional)
+
+1. If you haven't already, [add Firebase to your Android project](https://firebase.google.com/docs/android/setup).
+2. In Android Studio, add the FCM dependency to your app-level build.gradle file:
+
+```
+dependencies {
+     compile 'com.google.firebase:firebase-messaging:11.4.2'
+}
+```
+3. Add the following to your app's manifest: A service that extends FirebaseInstanceIdService to handle the creation, rotation, and updating of registration tokens. This is required for sending to specific devices or for creating device groups.
+
+```
+<service
+    android:name=".MyFirebaseInstanceIDService">
+    <intent-filter>
+        <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+    </intent-filter>
+</service>
+```
+
+4. When you need to retrieve the current token, call `FirebaseInstanceId.getInstance().getToken()`. This method returns null if the token has not yet been generated.
+
 ## Create User
 
 The SDK needs an User ID object to identify the device. The SDK has a convenience method `createUser()` to create a user which returns USer ID. 
