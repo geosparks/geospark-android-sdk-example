@@ -34,9 +34,9 @@ Installing the GeoSpark SDK is done in 3 steps.
 
 ### Import SDK into your project
 
-After downloading the SDK from [here](https://s3.amazonaws.com/geospark-framework/Android/GeoSpark.aar), click `File > Project Structure` in Android Studio. Click the green plus icon in the top left, click `Import AAR`, select the GeoSpark SDK file, press OK and wait for Gradle to finish syncing.
+After downloading the SDK from [here](https://s3.amazonaws.com/geospark-framework/Android/GeoSpark.aar), click `File > Project Structure` in Android Studio. Click the plus icon in the top left, click `Import AAR`, select the GeoSpark SDK file, press OK and wait for Gradle to finish syncing.
 
-Once Gradle is finished (only a few seconds), click `File > Project Structure` again. Click on `app`, then `Depenencies` tab, then the green icon (top right), select `Module dependency`, click on GeoSpark, then press Ok and wait for Gradle to sync again.
+Once Gradle is finished (only a few seconds), click `File > Project Structure` again. Click on `app`, then `Depenencies` tab, then click the plus icon in the bottom left, select `Module dependency`, click on GeoSpark, then press Ok and wait for Gradle to sync again.
 
 ### Enable Location and Run-time permissions
 To enable location, call the `requestPermissions` and `requestLocationServices` method. For Android 6.0 and above, calling this method will trigger a location permission popup that the user has to allow.
