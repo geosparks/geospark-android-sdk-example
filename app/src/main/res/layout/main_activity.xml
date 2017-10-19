@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView_create"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/txt_height"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_corner_disable"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Create User"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
+
+
+        <EditText
+            android:id="@+id/edt_userid"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/txt_height"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_edit_corner"
+            android:gravity="start|center"
+            android:hint="Enter userid"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView_getuser"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/txt_height"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_corner_disable"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Get User"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="start|center"
+            android:text="Location"
+            android:textSize="14sp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/txt_height"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/textView_startlocation"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_disable"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Start Tracking"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_stoplocation"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_disable"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Stop Tracking"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+        </TableRow>
+
+        <TextView
+            android:id="@+id/textView_logout"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/txt_height"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner_disable"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Logout"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView_viewlog"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/txt_height"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="View Log"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView_viewmap"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/txt_height"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="View Map"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView_viewlatlng"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/txt_height"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="View Lat &amp; Lng"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</ScrollView>
