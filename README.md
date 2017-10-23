@@ -24,7 +24,7 @@ Download this project and open it in Android Studio.
 
 Ready to deploy! 
 
-Your Android app is all set. As your users update and log in, their live location will be visualized on this dashboard.
+Your Android app is all set. As your users update and log in, their live location will be visualized on GeoSpark dashboard.
 
 # Installation into your Application
 
