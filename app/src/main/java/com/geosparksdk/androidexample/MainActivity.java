@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         try {
             String deviceToken = SharedPreferenceHelper.getStringText(getApplicationContext(), "DEVICE_TOKEN");
-            GeoSpark.getUser(MainActivity.this, deviceToken, uid, new GeoSparkCallBack() {
+            GeoSpark.getUser(MainActivity.this, uid, deviceToken, new GeoSparkCallBack() {
                 @Override
                 public void success(SuccessResponse successResponse) {
                     if (progressDialog != null) {
