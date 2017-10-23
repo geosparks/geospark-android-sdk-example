@@ -2,8 +2,6 @@
 
 An example app for android which implements the GeoSpark SDK and shows your location history.
 
-GeoSpark Android Documentation link: https://dashboard.geospark.co/docs/android/
-
 ## Example App
 
 ### To get started:
@@ -23,6 +21,10 @@ Download this project and open it in Android Studio.
 ```
 
 4. Import your google-services.json file into app folder. Follow the instructions here to get one https://support.google.com/firebase/answer/7015592
+
+Ready to deploy! 
+
+Your Android app is all set. As your users update and log in, their live location will be visualized on this dashboard.
 
 # Installation into your Application
 
