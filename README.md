@@ -36,7 +36,7 @@ Installing the GeoSpark SDK is done in 3 steps.
 
 ### Import SDK into your project
 
-After downloading the SDK from [here](https://s3.amazonaws.com/geospark-framework/Android/GeoSpark.aar), click `File > Project Structure` in Android Studio. Click the plus icon in the top left, click `Import AAR`, select the GeoSpark SDK file, press OK and wait for Gradle to finish syncing.
+After downloading the SDK, click `File > Project Structure` in Android Studio. Click the plus icon in the top left, click `Import AAR`, select the GeoSpark SDK file, press OK and wait for Gradle to finish syncing.
 
 Once Gradle is finished (only a few seconds), click `File > Project Structure` again. Click on `app`, then `Depenencies` tab, then click the plus icon in the bottom left, select `Module dependency`, click on GeoSpark, then press Ok and wait for Gradle to sync again.
 
