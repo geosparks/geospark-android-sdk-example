@@ -1,1 +1,1 @@
-include ':app', ':GeoSpark'
+include ':app'

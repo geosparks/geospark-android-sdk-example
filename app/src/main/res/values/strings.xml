@@ -1,6 +1,17 @@
 <resources>
-    <string name="app_name">GeoSpark Android Example</string>
-    <string name="app_logs">ViewLogs</string>
-    <string name="app_latlnglogs">LatLngLogs</string>
-    <string name="app_map">Viewmap</string>
+    <string name="app_name">GeoSpark Example</string>
+    <string name="app_logs">User Log</string>
+    <string name="app_latlnglogs">Location Log</string>
+    <string name="app_map">Tracked Location</string>
+
+    <string name="create">Create User</string>
+    <string name="get">Get User</string>
+    <string name="start">Start Tracking</string>
+    <string name="stop">Stop Tracking</string>
+    <string name="logout">Logout</string>
+    <string name="user">User Log</string>
+    <string name="tracked">Tracked Location</string>
+    <string name="location">Location Log</string>
+    <string name="startMock">Start Mock Location</string>
+    <string name="stopMock">Stop Mock Location</string>
 </resources>

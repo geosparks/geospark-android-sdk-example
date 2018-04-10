@@ -9,16 +9,28 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView_version"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/textView_create"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/txt_height"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/rounded_corner_disable"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Create User"
+            android:text="@string/create"
             android:textColor="#FFF"
             android:textSize="16sp" />
 
@@ -49,24 +61,16 @@
             android:background="@drawable/rounded_corner_disable"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Get User"
+            android:text="@string/get"
             android:textColor="#FFF"
             android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="start|center"
-            android:text="Location"
-            android:textSize="14sp" />
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="@dimen/txt_height"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="16dp">
 
             <TextView
                 android:id="@+id/textView_startlocation"
@@ -77,7 +81,7 @@
                 android:background="@drawable/rounded_corner_disable"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="Start Tracking"
+                android:text="@string/start"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
 
@@ -90,7 +94,42 @@
                 android:background="@drawable/rounded_corner_disable"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="Stop Tracking"
+                android:text="@string/stop"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/txt_height"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/textView_startmock"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_disable"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/startMock"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_stopmock"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_disable"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/stopMock"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
 
@@ -106,7 +145,7 @@
             android:background="@drawable/rounded_corner_disable"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Logout"
+            android:text="@string/logout"
             android:textColor="#FFF"
             android:textSize="16sp" />
 
@@ -120,7 +159,7 @@
             android:background="@drawable/rounded_corner"
             android:gravity="center"
             android:padding="4dp"
-            android:text="View Log"
+            android:text="@string/user"
             android:textColor="#FFF"
             android:textSize="16sp" />
 
@@ -134,7 +173,7 @@
             android:background="@drawable/rounded_corner"
             android:gravity="center"
             android:padding="4dp"
-            android:text="View Map"
+            android:text="@string/tracked"
             android:textColor="#FFF"
             android:textSize="16sp" />
 
@@ -148,7 +187,7 @@
             android:background="@drawable/rounded_corner"
             android:gravity="center"
             android:padding="4dp"
-            android:text="View Lat &amp; Lng"
+            android:text="@string/location"
             android:textColor="#FFF"
             android:textSize="16sp" />
 
