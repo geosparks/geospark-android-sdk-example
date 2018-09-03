@@ -1,195 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/img_settings"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_settings" />
 
         <TextView
-            android:id="@+id/textView_version"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/img_settings"
+            android:gravity="center|left"
+            android:padding="4dp"
+            android:text="@string/app_name"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:padding="4dp"
-            android:textColor="#000"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textView_create"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/txt_height"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/rounded_corner_disable"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/create"
-            android:textColor="#FFF"
-            android:textSize="16sp" />
-
-
-        <EditText
-            android:id="@+id/edt_userid"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/txt_height"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_edit_corner"
-            android:gravity="start|center"
-            android:hint="Enter userid"
-            android:maxLines="1"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textView_getuser"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/txt_height"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_corner_disable"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/get"
-            android:textColor="#FFF"
-            android:textSize="16sp" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/txt_height"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="16dp">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_startlocation"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
+                android:id="@+id/textView_version"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textColor="#000"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView_create"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="4dp"
                 android:background="@drawable/rounded_corner_disable"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="@string/start"
+                android:text="@string/create"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+
+            <EditText
+                android:id="@+id/edt_userid"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_edit_corner"
+                android:gravity="start|center"
+                android:hint="Enter userid"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_getuser"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corner_disable"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/get"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edt_description"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_edit_corner"
+                android:gravity="start|center"
+                android:hint="Enter description"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_desc"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corner"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/desc"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/textView_startlocation"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner_disable"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/start"
+                    android:textColor="#FFF"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textView_startmock"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner_disable"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/startMock"
+                    android:textColor="#FFF"
+                    android:textSize="16sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/textView_stoplocation"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner_disable"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/stop"
+                    android:textColor="#FFF"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/textView_stopmock"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner_disable"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/stopMock"
+                    android:textColor="#FFF"
+                    android:textSize="16sp" />
+
+            </TableRow>
+
+            <TextView
+                android:id="@+id/textView_viewlog"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corner"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/user"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView_stoplocation"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_corner_disable"
+                android:id="@+id/textView_viewmap"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corner"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="@string/stop"
-                android:textColor="#FFF"
-                android:textSize="16sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/txt_height"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="16dp">
-
-            <TextView
-                android:id="@+id/textView_startmock"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_corner_disable"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/startMock"
+                android:text="@string/tracked"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView_stopmock"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_corner_disable"
+                android:id="@+id/textView_viewlatlng"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corner"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="@string/stopMock"
+                android:text="@string/location"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
 
-        </TableRow>
-
-        <TextView
-            android:id="@+id/textView_logout"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/txt_height"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_corner_disable"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/logout"
-            android:textColor="#FFF"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textView_viewlog"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/txt_height"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_corner"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/user"
-            android:textColor="#FFF"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textView_viewmap"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/txt_height"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_corner"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/tracked"
-            android:textColor="#FFF"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textView_viewlatlng"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/txt_height"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_corner"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/location"
-            android:textColor="#FFF"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/textView_logout"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corner_disable"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/logout"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

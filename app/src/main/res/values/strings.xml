@@ -1,17 +1,18 @@
 <resources>
     <string name="app_name">GeoSpark Example</string>
-    <string name="app_logs">User Log</string>
-    <string name="app_latlnglogs">Location Log</string>
-    <string name="app_map">Tracked Location</string>
+    <string name="app_logs">User log</string>
+    <string name="app_latlnglogs">Location log</string>
+    <string name="app_map">Tracked location</string>
 
-    <string name="create">Create User</string>
-    <string name="get">Get User</string>
-    <string name="start">Start Tracking</string>
-    <string name="stop">Stop Tracking</string>
+    <string name="create">Create user</string>
+    <string name="get">Get user</string>
+    <string name="start">Start tracking</string>
+    <string name="stop">Stop tracking</string>
     <string name="logout">Logout</string>
-    <string name="user">User Log</string>
-    <string name="tracked">Tracked Location</string>
-    <string name="location">Location Log</string>
-    <string name="startMock">Start Mock Location</string>
-    <string name="stopMock">Stop Mock Location</string>
+    <string name="user">Logs</string>
+    <string name="desc">Set description</string>
+    <string name="tracked">Tracked location</string>
+    <string name="location">Location log</string>
+    <string name="startMock">Start mock location</string>
+    <string name="stopMock">Stop mock location</string>
 </resources>

@@ -36,6 +36,7 @@
         <activity
             android:name="com.storyboard.geosparkexam.MainActivity"
             android:configChanges="orientation|screenSize"
+            android:theme="@style/NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
@@ -45,6 +46,11 @@
 
         <activity
             android:name="com.storyboard.geosparkexam.tracked.TrackedActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_map" />
+
+        <activity
+            android:name="com.storyboard.geosparkexam.sdksettings.SDKSettingsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_map" />
 
@@ -68,7 +74,7 @@
 
         <receiver android:name="com.storyboard.geosparkexam.LocationReceiver">
             <intent-filter>
-                <action android:name="com.geospark.action.LOCATION" />
+                <action android:name="com.geospark.android.RECEIVED" />
             </intent-filter>
         </receiver>
     </application>
