@@ -38,7 +38,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:11.8.0'
     compile 'com.google.android.gms:play-services-maps:11.8.0'
     compile 'com.google.maps.android:android-maps-utils:0.3.4'
-    compile 'com.geospark.android:geospark:0.0.7'
+    compile 'com.geospark.android:geospark:0.0.8'
     implementation 'com.google.android.gms:play-services-location:11.8.0'
     apply plugin: 'com.google.gms.google-services'
 }
