@@ -9,7 +9,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.storyboard.geosparkexam.presistence.GeosparkLog;
 
-
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -18,8 +17,8 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.splash_activity);
         FirebaseApp.initializeApp(this);
         FirebaseInstanceId.getInstance().getToken();
-        GeoSpark.initialize(this,”YOUR-SDK-KEY”,”YOUR-SECRET”);
         GeosparkLog.getInstance(this).createLog("SDK", "SDK initialized.");
+        GeoSpark.initialize(this, "YOUR_PUBLISH_KEY");
         Thread background = new Thread() {
             public void run() {
                 try {

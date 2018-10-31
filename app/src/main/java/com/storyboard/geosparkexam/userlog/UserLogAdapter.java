@@ -38,7 +38,7 @@ public class UserLogAdapter extends RecyclerView.Adapter {
                                                       int viewType) {
         RecyclerView.ViewHolder vh;
         View v = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.logs_activity_item, parent, false);
+                R.layout.logs_item, parent, false);
         vh = new ItemHolder(v);
         return vh;
     }

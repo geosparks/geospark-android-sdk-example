@@ -42,38 +42,38 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_version"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:textColor="#000"
-                android:textSize="12sp" />
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|start"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/log"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView_create"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/rounded_corner_disable"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="@string/create"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
 
-
             <EditText
                 android:id="@+id/edt_userid"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_edit_corner"
                 android:gravity="start|center"
@@ -88,8 +88,8 @@
                 android:id="@+id/textView_getuser"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_corner_disable"
                 android:gravity="center"
@@ -98,42 +98,24 @@
                 android:textColor="#FFF"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/edt_description"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_edit_corner"
-                android:gravity="start|center"
-                android:hint="Enter description"
-                android:maxLines="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-
             <TextView
-                android:id="@+id/textView_desc"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rounded_corner"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/desc"
-                android:textColor="#FFF"
-                android:textSize="16sp" />
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|start"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="Tracking"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/textView_startlocation"
@@ -149,27 +131,6 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/textView_startmock"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner_disable"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="@string/startMock"
-                    android:textColor="#FFF"
-                    android:textSize="16sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="16dp">
-
-                <TextView
                     android:id="@+id/textView_stoplocation"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -180,58 +141,107 @@
                     android:text="@string/stop"
                     android:textColor="#FFF"
                     android:textSize="16sp" />
+            </TableRow>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|start"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/log_trip"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
 
                 <TextView
-                    android:id="@+id/textView_stopmock"
+                    android:id="@+id/trip"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corner_disable"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="@string/stopMock"
+                    android:text="@string/trip"
+                    android:textColor="#FFF"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/geofence"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/geofence"
                     android:textColor="#FFF"
                     android:textSize="16sp" />
 
             </TableRow>
 
             <TextView
-                android:id="@+id/textView_viewlog"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rounded_corner"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/user"
-                android:textColor="#FFF"
-                android:textSize="16sp" />
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|start"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="Logs"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView_viewmap"
-                android:layout_width="fill_parent"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rounded_corner"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/tracked"
-                android:textColor="#FFF"
-                android:textSize="16sp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/textView_viewlog"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/user"
+                    android:textColor="#FFF"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textView_viewmap"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/tracked"
+                    android:textColor="#FFF"
+                    android:textSize="16sp" />
+
+            </TableRow>
 
             <TextView
                 android:id="@+id/textView_viewlatlng"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_corner"
                 android:gravity="center"
                 android:padding="4dp"
@@ -244,9 +254,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/rounded_corner_disable"
                 android:gravity="center"
                 android:padding="4dp"

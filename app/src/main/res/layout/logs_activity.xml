@@ -4,18 +4,33 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txt_back"
+    <RelativeLayout
+        android:id="@+id/top"
         android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:background="@color/colorPrimary"
-        android:gravity="start|center"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="Back"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="start|center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:src="@drawable/ic_left" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/img_back"
+            android:gravity="center|left"
+            android:padding="4dp"
+            android:text="Logs"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -73,7 +73,7 @@ public class SharedPreferenceHelper {
     }
 
     public static void changeButtonStatus(Context context, boolean createUser,
-                                          boolean getUser, boolean startTrack, boolean mockStartTrack, boolean logout) {
+                                          boolean getUser, boolean startTrack, boolean mockStartTrack, boolean trip, boolean logout) {
         setBoolean(context, "CRAETEUSER", createUser);
         setBoolean(context, "GETUSER", getUser);
         setBoolean(context, "STARTTRACK", startTrack);
@@ -81,12 +81,14 @@ public class SharedPreferenceHelper {
         setBoolean(context, "STARTMOCKTRACK", mockStartTrack);
         setBoolean(context, "STOPTMOCKTRACK", false);
         setBoolean(context, "LOGOUT", logout);
+        setBoolean(context, "TRIP", trip);
         setBoolean(context, "INIT", true);
     }
 
-    public static void trackStatus(Context context, boolean startTrack, boolean stopTrack, boolean mockStartTrack) {
+    public static void trackStatus(Context context, boolean startTrack, boolean stopTrack, boolean mockStartTrack, boolean trip) {
         setBoolean(context, "STARTTRACK", startTrack);
         setBoolean(context, "STOPTRACK", stopTrack);
+        setBoolean(context, "TRIP", trip);
         //Mock
         setBoolean(context, "STARTMOCKTRACK", mockStartTrack);
         setBoolean(context, "STOPTMOCKTRACK", false);
@@ -109,23 +111,6 @@ public class SharedPreferenceHelper {
         removeItem(context, "MOTIONSTATE");
         setStringSet(context, "MOTIONSTATE", stringSet);
     }
-
-    public static void setLocMode(Context context, String name) {
-        setString(context, "LOCMODE", name);
-    }
-
-    public static void setLocFreq(Context context, String name) {
-        setString(context, "LOCFREQ", name);
-    }
-
-    public static void setLocAcc(Context context, String name) {
-        setString(context, "LOCACC", name);
-    }
-
-    public static void setDistance(Context context, String name) {
-        setString(context, "DISTANCEFILTER", name);
-    }
-
 
     /************** Get details **************/
     public static boolean getInit(Context context) {
@@ -160,28 +145,16 @@ public class SharedPreferenceHelper {
         return getBoolean(context, "STOPTMOCKTRACK");
     }
 
+    public static boolean getTrip(Context context) {
+        return getBoolean(context, "TRIP");
+    }
+
     public static Set<String> getTrackInAppStateSettings(Context context) {
         return getStringSet(context, "APPSTATE");
     }
 
     public static Set<String> getTrackingMotion(Context context) {
         return getStringSet(context, "MOTIONSTATE");
-    }
-
-    public static String getLocMode(Context context) {
-        return getString(context, "LOCMODE");
-    }
-
-    public static String getLocFreq(Context context) {
-        return getString(context, "LOCFREQ");
-    }
-
-    public static String getLocAcc(Context context) {
-        return getString(context, "LOCACC");
-    }
-
-    public static String getDistance(Context context) {
-        return getString(context, "DISTANCEFILTER");
     }
 
     public static boolean getLogout(Context context) {

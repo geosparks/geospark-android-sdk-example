@@ -1,4 +1,4 @@
-package com.storyboard.geosparkexam.locationlog;
+package com.storyboard.geosparkexam.geofence;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,19 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.geospark.lib.model.GeoSparkGeofence;
 import com.storyboard.geosparkexam.R;
-import com.storyboard.geosparkexam.presistence.GeosparkLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationLogAdapter extends RecyclerView.Adapter {
+public class GeofenceListAdapter extends RecyclerView.Adapter {
 
-    private List<GeosparkLog> mGeoLog = new ArrayList<>();
+    private List<GeoSparkGeofence> idList = new ArrayList<>();
 
-    void addAllItem(List<GeosparkLog> lst) {
-        mGeoLog.clear();
-        mGeoLog.addAll(lst);
+    void addAllItem(List<GeoSparkGeofence> lst) {
+        idList.clear();
+        idList.addAll(lst);
         notifyDataSetChanged();
     }
 
@@ -34,24 +34,24 @@ public class LocationLogAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        final GeosparkLog geosparkLog = mGeoLog.get(position);
-        ((ItemHolder) holder).mTxtLog.setText("Lat:  " + geosparkLog.getmLat() + " \nLng:  " + geosparkLog.getmLng() + " \nSpeed:  " + geosparkLog.getmSpeed());
-        ((ItemHolder) holder).mTxtDateTime.setText("Date&Time: " + geosparkLog.getmDateTime());
+        final GeoSparkGeofence geoSparkGeofence = idList.get(position);
+        ((ItemHolder) holder).mTxtLog.setText("Geofence Id:  " + geoSparkGeofence.getId());
+        ((ItemHolder) holder).mTxtDate.setText("Geofence createdAt:  " + geoSparkGeofence.getCreatedAt());
     }
 
     @Override
     public int getItemCount() {
-        return mGeoLog.size();
+        return idList.size();
     }
 
     private class ItemHolder extends RecyclerView.ViewHolder {
         private TextView mTxtLog;
-        private TextView mTxtDateTime;
+        private TextView mTxtDate;
 
         ItemHolder(View itemView) {
             super(itemView);
             mTxtLog = itemView.findViewById(R.id.txt_log);
-            mTxtDateTime = itemView.findViewById(R.id.txt_datetime);
+            mTxtDate = itemView.findViewById(R.id.txt_datetime);
         }
     }
 }

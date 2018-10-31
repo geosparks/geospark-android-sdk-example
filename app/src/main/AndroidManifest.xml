@@ -26,7 +26,8 @@
 
         <activity
             android:name="com.storyboard.geosparkexam.SplashActivity"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,28 +37,53 @@
         <activity
             android:name="com.storyboard.geosparkexam.MainActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
             android:name="com.storyboard.geosparkexam.locationlog.LocationLogActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_latlnglogs" />
+            android:label="@string/app_latlnglogs"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
 
         <activity
             android:name="com.storyboard.geosparkexam.tracked.TrackedActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_map" />
+            android:label="@string/app_map"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
 
         <activity
             android:name="com.storyboard.geosparkexam.sdksettings.SDKSettingsActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_map" />
+            android:label="@string/app_map"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
 
         <activity
             android:name="com.storyboard.geosparkexam.userlog.UserLogActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_logs" />
+            android:label="@string/app_logs"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+
+        <activity
+            android:name="com.storyboard.geosparkexam.trip.TripActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name="com.storyboard.geosparkexam.geofence.CreateGeofenceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name="com.storyboard.geosparkexam.geofence.GeofenceListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
 
         <!--FIREBASE-->
         <service android:name="com.storyboard.geosparkexam.firebase.MyFireBaseMessagingService">

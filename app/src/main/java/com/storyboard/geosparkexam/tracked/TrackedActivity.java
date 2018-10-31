@@ -18,7 +18,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -81,7 +81,7 @@ public class TrackedActivity extends FragmentActivity implements OnMapReadyCallb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity);
-        TextView back = findViewById(R.id.txt_back);
+        ImageView back = findViewById(R.id.img_back);
         mMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         back.setOnClickListener(this);
         mMapFragment.getMapAsync(this);
@@ -90,7 +90,7 @@ public class TrackedActivity extends FragmentActivity implements OnMapReadyCallb
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.txt_back:
+            case R.id.img_back:
                 onBackPressed();
                 break;
         }
