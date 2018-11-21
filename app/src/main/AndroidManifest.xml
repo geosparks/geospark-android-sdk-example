@@ -98,11 +98,17 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".LocationService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <receiver android:name="com.storyboard.geosparkexam.LocationReceiver">
             <intent-filter>
                 <action android:name="com.geospark.android.RECEIVED" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

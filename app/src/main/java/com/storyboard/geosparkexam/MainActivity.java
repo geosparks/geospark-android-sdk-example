@@ -1,6 +1,9 @@
 package com.storyboard.geosparkexam;
 
 import android.app.ProgressDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,10 +47,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mLogout;
     private ProgressDialog progressDialog;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onResume() {
         super.onResume();
         GeoSpark.onResume(this);
+        locationJob(this);
     }
 
     @Override
@@ -148,6 +154,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 logout();
                 break;
 
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void locationJob(Context context) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+            try {
+                JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+                JobInfo job = new JobInfo.Builder(1001, new ComponentName(context, LocationService.class))
+                        .setMinimumLatency(1000)
+                        .setOverrideDeadline(2000)
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NONE)
+                        .setPersisted(true)
+                        .build();
+                jobScheduler.schedule(job);
+            } catch (Exception e) {
+
+            }
         }
     }
 

@@ -2,8 +2,7 @@ package com.storyboard.geosparkexam;
 
 import android.content.Context;
 import android.location.Location;
-
-import com.geospark.lib.appstate.GeoSparkReceiver;
+import com.geospark.lib.location.services.GeoSparkReceiver;
 import com.geospark.lib.model.GeoSparkUser;
 import com.storyboard.geosparkexam.presistence.GeosparkLog;
 
