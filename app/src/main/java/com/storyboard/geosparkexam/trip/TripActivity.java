@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class TripActivity extends AppCompatActivity {
         TextView startTrip = findViewById(R.id.textView_trip);
         TextView viewTrips = findViewById(R.id.textView_view);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        final EditText edtDescription = findViewById(R.id.edt_description);
         final TripAdapter adapter = new TripAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -51,7 +53,7 @@ public class TripActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showProgressDialog("Creating trip...");
-                GeoSpark.startTrip(TripActivity.this, new GeoSparkTripCallBack() {
+                GeoSpark.startTrip(TripActivity.this, edtDescription.getText().toString(), new GeoSparkTripCallBack() {
                     @Override
                     public void onSuccess(GeoSparkTrip geoSparkTrip) {
                         stopProgressDialog();

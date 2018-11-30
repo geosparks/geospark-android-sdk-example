@@ -34,7 +34,7 @@ public class GeofenceListActivity extends AppCompatActivity {
         setContentView(R.layout.geofence_list_activity);
         ImageView txtBack = findViewById(R.id.img_back);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        mAdapter = new GeofenceListAdapter();
+        mAdapter = new GeofenceListAdapter(this);
         mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(mAdapter);
@@ -60,7 +60,6 @@ public class GeofenceListActivity extends AppCompatActivity {
                 Toast.makeText(GeofenceListActivity.this, geoSparkError.getErrorMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
         txtBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

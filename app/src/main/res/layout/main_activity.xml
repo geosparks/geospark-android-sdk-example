@@ -53,20 +53,25 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView_create"
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_corner"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="@string/create"
-                android:textColor="#FFF"
-                android:textSize="16sp" />
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/textView_create"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner_disable"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/create"
+                    android:textColor="#FFF"
+                    android:textSize="16sp" />
+            </TableRow>
 
             <EditText
                 android:id="@+id/edt_userid"
@@ -97,6 +102,37 @@
                 android:text="@string/get"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edt_description"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_edit_corner"
+                android:gravity="start|center"
+                android:hint="Enter description"
+                android:maxLines="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_description"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corner_disable"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/desp"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -180,7 +216,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
+                    android:background="@drawable/rounded_corner_disable"
                     android:gravity="center"
                     android:padding="4dp"
                     android:text="@string/geofence"
@@ -226,7 +262,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
+                    android:background="@drawable/rounded_corner_disable"
                     android:gravity="center"
                     android:padding="4dp"
                     android:text="@string/tracked"
@@ -242,7 +278,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_corner"
+                android:background="@drawable/rounded_corner_disable"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="@string/location"

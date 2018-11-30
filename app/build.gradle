@@ -34,6 +34,6 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-location:16.0.0'
 
-    implementation 'com.geospark.android:geospark:1.1'
+    implementation 'com.geospark.android:geospark:1.2'
     apply plugin: 'com.google.gms.google-services'
 }

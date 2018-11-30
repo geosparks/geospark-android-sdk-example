@@ -73,33 +73,19 @@ public class SharedPreferenceHelper {
     }
 
     public static void changeButtonStatus(Context context, boolean createUser,
-                                          boolean getUser, boolean startTrack, boolean mockStartTrack, boolean trip, boolean logout) {
+                                          boolean getUser, boolean startTrack, boolean logout) {
         setBoolean(context, "CRAETEUSER", createUser);
         setBoolean(context, "GETUSER", getUser);
         setBoolean(context, "STARTTRACK", startTrack);
         setBoolean(context, "STOPTRACK", false);
-        setBoolean(context, "STARTMOCKTRACK", mockStartTrack);
         setBoolean(context, "STOPTMOCKTRACK", false);
         setBoolean(context, "LOGOUT", logout);
-        setBoolean(context, "TRIP", trip);
         setBoolean(context, "INIT", true);
     }
 
-    public static void trackStatus(Context context, boolean startTrack, boolean stopTrack, boolean mockStartTrack, boolean trip) {
+    public static void trackStatus(Context context, boolean startTrack, boolean stopTrack) {
         setBoolean(context, "STARTTRACK", startTrack);
         setBoolean(context, "STOPTRACK", stopTrack);
-        setBoolean(context, "TRIP", trip);
-        //Mock
-        setBoolean(context, "STARTMOCKTRACK", mockStartTrack);
-        setBoolean(context, "STOPTMOCKTRACK", false);
-    }
-
-    public static void trackMockStatus(Context context, boolean mockStartTrack, boolean mockStopTrack, boolean startTrack) {
-        setBoolean(context, "STARTMOCKTRACK", mockStartTrack);
-        setBoolean(context, "STOPTMOCKTRACK", mockStopTrack);
-        //StartTracking
-        setBoolean(context, "STARTTRACK", startTrack);
-        setBoolean(context, "STOPTRACK", false);
     }
 
     public static void setTrackInAppStateSettings(Context context, Set<String> stringSet) {
@@ -115,10 +101,6 @@ public class SharedPreferenceHelper {
     /************** Get details **************/
     public static boolean getInit(Context context) {
         return getBoolean(context, "INIT");
-    }
-
-    public static String getDeviceToken(Context context) {
-        return getString(context, "DEVICE_TOKEN");
     }
 
     public static boolean getCreateUser(Context context) {
@@ -137,18 +119,6 @@ public class SharedPreferenceHelper {
         return getBoolean(context, "STOPTRACK");
     }
 
-    public static boolean getMockStartTrack(Context context) {
-        return getBoolean(context, "STARTMOCKTRACK");
-    }
-
-    public static boolean getMockStopTrack(Context context) {
-        return getBoolean(context, "STOPTMOCKTRACK");
-    }
-
-    public static boolean getTrip(Context context) {
-        return getBoolean(context, "TRIP");
-    }
-
     public static Set<String> getTrackInAppStateSettings(Context context) {
         return getStringSet(context, "APPSTATE");
     }
@@ -162,6 +132,3 @@ public class SharedPreferenceHelper {
     }
 
 }
-
-
-

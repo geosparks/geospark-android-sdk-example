@@ -8,6 +8,7 @@
     <string name="init">Initialize SDK</string>
     <string name="create">Create user</string>
     <string name="get">Get user</string>
+    <string name="desp">Set description</string>
     <string name="start">Start tracking</string>
     <string name="stop">Stop tracking</string>
     <string name="trip">Trip</string>
