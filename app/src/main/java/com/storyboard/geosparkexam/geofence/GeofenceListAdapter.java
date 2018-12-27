@@ -13,7 +13,7 @@ import com.geospark.lib.callback.GeoSparkGeofenceCallBack;
 import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkGeofence;
 import com.storyboard.geosparkexam.R;
-import com.storyboard.geosparkexam.presistence.GeosparkLog;
+import com.storyboard.geosparkexam.storage.Logs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,14 +54,14 @@ public class GeofenceListAdapter extends RecyclerView.Adapter {
                 GeoSpark.deleteGeofence(mContext, geoSparkGeofence.getId(), new GeoSparkGeofenceCallBack() {
                     @Override
                     public void onSuccess(GeoSparkGeofence geoSparkGeofence) {
-                        GeosparkLog.getInstance(mContext).createLog("Geofence Deleted", geoSparkGeofence.getId());
+                        Logs.getInstance(mContext).applicationLog("Geofence Deleted", geoSparkGeofence.getId());
                         Toast.makeText(mContext, "Geofence successfully deleted.", Toast.LENGTH_SHORT).show();
                         removeItem(position);
                     }
 
                     @Override
                     public void onFailure(GeoSparkError geoSparkError) {
-                        GeosparkLog.getInstance(mContext).createLog("Geofence delete error", geoSparkGeofence.getId() + " " + geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage());
+                        Logs.getInstance(mContext).applicationLog("Geofence delete error", geoSparkGeofence.getId() + " " + geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage());
                         Toast.makeText(mContext, geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

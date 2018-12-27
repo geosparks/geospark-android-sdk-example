@@ -18,7 +18,7 @@ import com.geospark.lib.callback.GeoSparkGeofenceCallBack;
 import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkGeofence;
 import com.storyboard.geosparkexam.R;
-import com.storyboard.geosparkexam.presistence.GeosparkLog;
+import com.storyboard.geosparkexam.storage.Logs;
 
 import java.util.List;
 
@@ -39,12 +39,11 @@ public class GeofenceListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(mAdapter);
         showProgressDialog("Loading geofence list ....");
-
         GeoSpark.geofenceList(this, new GeoSparkGeofenceCallBack() {
             @Override
             public void onSuccess(GeoSparkGeofence geoSparkGeofence) {
                 stopProgressDialog();
-                GeosparkLog.getInstance(GeofenceListActivity.this).createLog("Geofence Listed", String.valueOf(geoSparkGeofence.getGeofenceList().size()));
+                Logs.getInstance(GeofenceListActivity.this).applicationLog("Geofence Listed", String.valueOf(geoSparkGeofence.getGeofenceList().size()));
                 List<GeoSparkGeofence> geoSparkGeofences = geoSparkGeofence.getGeofenceList();
                 if (geoSparkGeofences.size() != 0) {
                     mAdapter.addAllItem(geoSparkGeofences);
@@ -56,7 +55,7 @@ public class GeofenceListActivity extends AppCompatActivity {
             @Override
             public void onFailure(GeoSparkError geoSparkError) {
                 stopProgressDialog();
-                GeosparkLog.getInstance(GeofenceListActivity.this).createLog("Geofence list error", geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage());
+                Logs.getInstance(GeofenceListActivity.this).applicationLog("Geofence list error", geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage());
                 Toast.makeText(GeofenceListActivity.this, geoSparkError.getErrorMessage(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:configChanges="orientation|screenSize"
         android:icon="@mipmap/ic_launcher"
@@ -15,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!--GOOGLE API-->
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -42,72 +47,75 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
-            android:name="com.storyboard.geosparkexam.locationlog.LocationLogActivity"
+            android:name="com.storyboard.geosparkexam.userlogs.UserLogActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_latlnglogs"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
         <activity
-            android:name="com.storyboard.geosparkexam.tracked.TrackedActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/app_map"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
-
-        <activity
-            android:name="com.storyboard.geosparkexam.sdksettings.SDKSettingsActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/app_map"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
-
-        <activity
-            android:name="com.storyboard.geosparkexam.userlog.UserLogActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/app_logs"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
-
-
-        <activity
             android:name="com.storyboard.geosparkexam.trip.TripActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_latlnglogs"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
         <activity
-            android:name="com.storyboard.geosparkexam.geofence.CreateGeofenceActivity"
+            android:name="com.storyboard.geosparkexam.geofence.GeofenceActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_latlnglogs"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
         <activity
             android:name="com.storyboard.geosparkexam.geofence.GeofenceListActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_latlnglogs"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
-        <!--FIREBASE-->
-        <service android:name="com.storyboard.geosparkexam.firebase.MyFireBaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        <activity
+            android:name="com.storyboard.geosparkexam.locationlogs.MapActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_latlnglogs"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
 
-        <service android:name="com.storyboard.geosparkexam.firebase.MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
+        <activity
+            android:name="com.storyboard.geosparkexam.locationlogs.LocationActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_latlnglogs"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
 
-        <service
-            android:name=".LocationService"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <activity
+            android:name="com.storyboard.geosparkexam.settings.SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_latlnglogs"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
 
-        <receiver android:name="com.storyboard.geosparkexam.LocationReceiver">
+        <receiver
+            android:name="com.storyboard.geosparkexam.locationlogs.LocationReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.geospark.android.RECEIVED" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".locationlogs.GeoSparkImplicitService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".firebase.MyFireBaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
 
     </application>
 

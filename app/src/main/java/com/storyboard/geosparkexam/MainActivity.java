@@ -1,18 +1,12 @@
 package com.storyboard.geosparkexam;
 
 import android.app.ProgressDialog;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,16 +20,17 @@ import com.geospark.lib.callback.GeoSparkCallBack;
 import com.geospark.lib.callback.GeoSparkLogoutCallBack;
 import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkUser;
-import com.geospark.lib.network.implictreceiver.GeoSparkImplicitService;
-import com.storyboard.geosparkexam.geofence.CreateGeofenceActivity;
-import com.storyboard.geosparkexam.locationlog.LocationLogActivity;
-import com.storyboard.geosparkexam.presistence.GeosparkLog;
-import com.storyboard.geosparkexam.presistence.SharedPreferenceHelper;
-import com.storyboard.geosparkexam.sdksettings.SDKSettingsActivity;
-import com.storyboard.geosparkexam.tracked.TrackedActivity;
+import com.storyboard.geosparkexam.geofence.GeofenceActivity;
+import com.storyboard.geosparkexam.locationlogs.LocationActivity;
+import com.storyboard.geosparkexam.locationlogs.MapActivity;
+import com.storyboard.geosparkexam.settings.SettingsActivity;
+import com.storyboard.geosparkexam.storage.GeoSparkPref;
+import com.storyboard.geosparkexam.storage.Logs;
 import com.storyboard.geosparkexam.trip.TripActivity;
-import com.storyboard.geosparkexam.userlog.UserLogActivity;
-import com.storyboard.geosparkexam.util.AppUtil;
+import com.storyboard.geosparkexam.userlogs.UserLogActivity;
+import com.storyboard.geosparkexam.util.App;
+
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -57,30 +52,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        locationJob(this);
-        GeoSpark.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        GeoSpark.onPause(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        GeoSpark.onDestroy(this);
+        LocationActivity.locationJob(this);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        setContentView(R.layout.main_activity);
-        AppUtil.getBatteryOptimisation(this);
+        App.getBatteryOptimisation(this);
         initButtonStatus();
-        getBatteryOptimisation(this);
         ImageView settings = findViewById(R.id.img_settings);
         mCreateUser = findViewById(R.id.textView_create);
         mEdtUserID = findViewById(R.id.edt_userid);
@@ -91,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mStopLocation = findViewById(R.id.textView_stoplocation);
         mTrip = findViewById(R.id.trip);
         mGeofence = findViewById(R.id.geofence);
-        TextView viewLog = findViewById(R.id.textView_viewlog);
+        final TextView viewLog = findViewById(R.id.textView_viewlog);
         mViewLatLng = findViewById(R.id.textView_viewlatlng);
         mViewMap = findViewById(R.id.textView_viewmap);
         mLogout = findViewById(R.id.textView_logout);
@@ -107,32 +87,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewLatLng.setOnClickListener(this);
         mViewMap.setOnClickListener(this);
         mLogout.setOnClickListener(this);
+
+        findViewById(R.id.textView_export).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{WRITE_EXTERNAL_STORAGE}, 7001);
+                //GeoSpark.exportToFile(MainActivity.this);
+            }
+        });
         checkButtonStatus();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void locationJob(Context context) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-            try {
-                JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-                JobInfo job = new JobInfo.Builder(1001, new ComponentName(context, GeoSparkImplicitService.class))
-                        .setMinimumLatency(1000)
-                        .setOverrideDeadline(2000)
-                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NONE)
-                        .setPersisted(true)
-                        .build();
-                jobScheduler.schedule(job);
-            } catch (Exception e) {
-
-            }
-        }
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
             case R.id.img_settings:
-                startActivity(new Intent(MainActivity.this, SDKSettingsActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
 
             case R.id.textView_create:
@@ -145,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     showProgressDialog("Loading user...");
                     getUser(mEdtUserID.getText().toString());
                 } else {
-                    AppUtil.showToast(this, "Enter user id");
+                    App.showToast(this, "Enter user id");
                 }
                 break;
 
@@ -154,12 +126,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     showProgressDialog("Set Description...");
                     setDescription(mEdtDescription.getText().toString());
                 } else {
-                    AppUtil.showToast(this, "Enter description");
+                    App.showToast(this, "Enter description");
                 }
                 break;
 
             case R.id.textView_startlocation:
-                startTracking(MainActivity.this);
+                startTracking();
                 break;
 
             case R.id.textView_stoplocation:
@@ -193,19 +165,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public static void getBatteryOptimisation(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Intent intent = new Intent();
-            String packageName = context.getPackageName();
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)) {
-                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + packageName));
-                context.startActivity(intent);
-            }
-        }
-    }
-
     private void showProgressDialog(String message) {
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -231,15 +190,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         GeoSpark.createUser(MainActivity.this, mEdtDescription.getText().toString(), new GeoSparkCallBack() {
             @Override
             public void onSuccess(GeoSparkUser geoSparkUser) {
+                Log.e("USER ID", geoSparkUser.getUserId());
                 stopProgressDialog();
-                GeosparkLog.getInstance(MainActivity.this).createLog("User created", geoSparkUser.getUserId());
+                Logs.getInstance(MainActivity.this).applicationLog("User created", geoSparkUser.getUserId());
                 successCreateUser();
             }
 
             @Override
             public void onFailure(GeoSparkError geoSparkError) {
                 stopProgressDialog();
-                GeosparkLog.getInstance(MainActivity.this).createLog(geoSparkError.getErrorCode(), geoSparkError.getErrorMessage());
+                Logs.getInstance(MainActivity.this).applicationLog(geoSparkError.getErrorCode(), geoSparkError.getErrorMessage());
                 failureCreateUser();
             }
         });
@@ -250,13 +210,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSuccess(GeoSparkUser geoSparkUser) {
                 stopProgressDialog();
-                GeosparkLog.getInstance(MainActivity.this).createLog("Description", geoSparkUser.getUserId());
+                Logs.getInstance(MainActivity.this).applicationLog("Description", geoSparkUser.getUserId());
             }
 
             @Override
             public void onFailure(GeoSparkError geoSparkError) {
                 stopProgressDialog();
-                GeosparkLog.getInstance(MainActivity.this).createLog(geoSparkError.getErrorCode(), geoSparkError.getErrorMessage());
+                Logs.getInstance(MainActivity.this).applicationLog(geoSparkError.getErrorCode(), geoSparkError.getErrorMessage());
             }
         });
     }
@@ -266,40 +226,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSuccess(GeoSparkUser geoSparkUser) {
                 stopProgressDialog();
-                GeosparkLog.getInstance(MainActivity.this).createLog("Session started", geoSparkUser.getUserId());
+                Logs.getInstance(MainActivity.this).applicationLog("Get User", geoSparkUser.getUserId());
                 successCreateUser();
             }
 
             @Override
             public void onFailure(GeoSparkError geoSparkError) {
                 stopProgressDialog();
-                GeosparkLog.getInstance(MainActivity.this).createLog(geoSparkError.getErrorCode(), geoSparkError.getErrorMessage());
+                Logs.getInstance(MainActivity.this).applicationLog(geoSparkError.getErrorCode(), geoSparkError.getErrorMessage());
                 failureCreateUser();
-                Log.e("Get User Error", geoSparkError.getErrorMessage());
             }
         });
     }
 
-    private void startTracking(Context context) {
-        if (!GeoSpark.checkGooglePlayService(context)) {
-            AppUtil.showToast(this, "Update play service");
-        } else if (!GeoSpark.checkPermission(context)) {
-            GeoSpark.requestPermission(MainActivity.this);
-        } else if (!GeoSpark.checkLocationServices(context)) {
-            GeoSpark.requestLocationServices(MainActivity.this);
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void startTracking() {
+        if (!GeoSpark.checkPermission(this)) {
+            GeoSpark.requestPermission(this);
+        } else if (!GeoSpark.checkLocationServices(this)) {
+            GeoSpark.requestLocationServices(this);
         } else {
-            AppUtil.showToast(this, "Start Tracking");
+            App.showToast(this, "Start Tracking");
             enableStartTracking();
-            GeosparkLog.getInstance(context).createLog("Start Location tracking", "Started successfully");
+            Logs.getInstance(this).applicationLog("Start tracking", "Started successfully");
             GeoSpark.startTracking(this);
         }
     }
 
     private void stopTracking() {
         enableStopTracking();
-        AppUtil.showToast(this, "Stop Tracking");
-        GeosparkLog.getInstance(MainActivity.this).createLog("Stop Location tracking", "Stopped successfully");
-        GeoSpark.stopTracking(MainActivity.this);
+        App.showToast(this, "Stop Tracking");
+        Logs.getInstance(MainActivity.this).applicationLog("Stop tracking", "Stopped successfully");
+        GeoSpark.stopTracking(this);
     }
 
     private void trip() {
@@ -307,19 +265,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void createGeofence() {
-        startActivity(new Intent(this, CreateGeofenceActivity.class));
+        startActivity(new Intent(this, GeofenceActivity.class));
     }
 
     private void viewLogs() {
-        startActivity(new Intent(MainActivity.this, UserLogActivity.class));
+        startActivity(new Intent(this, UserLogActivity.class));
     }
 
     private void viewLatLngLogs() {
-        startActivity(new Intent(MainActivity.this, LocationLogActivity.class));
+        startActivity(new Intent(this, LocationActivity.class));
     }
 
     private void viewMap() {
-        startActivity(new Intent(MainActivity.this, TrackedActivity.class));
+        startActivity(new Intent(this, MapActivity.class));
     }
 
     private void logout() {
@@ -328,9 +286,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSuccess(String message) {
                 Log.i("GeoSpark", message);
-                SharedPreferenceHelper.saveInit(getApplicationContext());
-                GeosparkLog.getInstance(MainActivity.this).clearUserTable();
-                GeosparkLog.getInstance(MainActivity.this).clearGeoTable();
+                Logs.getInstance(MainActivity.this).applicationLog("Logout", message);
+                GeoSparkPref.saveInit(getApplicationContext());
+                Logs.getInstance(MainActivity.this).clearLocationLogs();
                 initButtonStatus();
                 checkButtonStatus();
                 stopProgressDialog();
@@ -338,42 +296,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(GeoSparkError geoSparkError) {
+                Logs.getInstance(MainActivity.this).applicationLog("Logout", geoSparkError.getErrorMessage());
                 stopProgressDialog();
             }
         });
     }
 
     private void initButtonStatus() {
-        if (!SharedPreferenceHelper.getInit(getApplicationContext())) {
-            SharedPreferenceHelper.changeButtonStatus(getApplicationContext(),
-                    true, true, false, false);
+        if (!GeoSparkPref.getInit(getApplicationContext())) {
+            GeoSparkPref.changeButtonStatus(getApplicationContext(), true, true, false, false);
         }
     }
 
     private void successCreateUser() {
-        SharedPreferenceHelper.changeButtonStatus(getApplicationContext(),
-                false, false, true, true);
+        GeoSparkPref.changeButtonStatus(getApplicationContext(), false, false, true, true);
         checkButtonStatus();
     }
 
     private void failureCreateUser() {
-        SharedPreferenceHelper.changeButtonStatus(getApplicationContext(),
-                true, true, false, false);
+        GeoSparkPref.changeButtonStatus(getApplicationContext(), true, true, false, false);
         checkButtonStatus();
     }
 
     private void enableStartTracking() {
-        SharedPreferenceHelper.trackStatus(getApplicationContext(), false, true);
+        GeoSparkPref.trackStatus(getApplicationContext(), false, true);
         checkButtonStatus();
     }
 
     private void enableStopTracking() {
-        SharedPreferenceHelper.trackStatus(getApplicationContext(), true, false);
+        GeoSparkPref.trackStatus(getApplicationContext(), true, false);
         checkButtonStatus();
     }
 
     private void checkButtonStatus() {
-        if (SharedPreferenceHelper.getCreateUser(getApplicationContext())) {
+        if (GeoSparkPref.getCreateUser(getApplicationContext())) {
             mCreateUser.setEnabled(true);
             mGetUser.setEnabled(true);
             mSetDescription.setEnabled(false);
@@ -405,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mViewMap.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         }
 
-        if (SharedPreferenceHelper.getUser(getApplicationContext())) {
+        if (GeoSparkPref.getUser(getApplicationContext())) {
             mCreateUser.setEnabled(true);
             mGetUser.setEnabled(true);
             mSetDescription.setEnabled(false);
@@ -437,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mViewMap.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         }
 
-        if (SharedPreferenceHelper.getStartTrack(getApplicationContext())) {
+        if (GeoSparkPref.getStartTrack(getApplicationContext())) {
             mStartLocation.setEnabled(true);
             mStartLocation.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         } else {
@@ -445,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mStartLocation.setBackgroundColor(getResources().getColor(R.color.grey));
         }
 
-        if (SharedPreferenceHelper.getStopTrack(getApplicationContext())) {
+        if (GeoSparkPref.getStopTrack(getApplicationContext())) {
             mStopLocation.setEnabled(true);
             mStopLocation.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         } else {
@@ -453,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mStopLocation.setBackgroundColor(getResources().getColor(R.color.grey));
         }
 
-        if (SharedPreferenceHelper.getLogout(getApplicationContext())) {
+        if (GeoSparkPref.getLogout(getApplicationContext())) {
             mLogout.setEnabled(true);
             mLogout.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         } else {

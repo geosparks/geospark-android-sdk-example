@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="com.geospark.android:geospark-1.3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/geospark-1.3.aar/76266d650bcc7f402d544b87271c663a/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/geospark-1.3.aar/76266d650bcc7f402d544b87271c663a/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -20,12 +20,13 @@ import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkTrip;
 import com.geospark.lib.model.GeoSparkTrips;
 import com.storyboard.geosparkexam.R;
-import com.storyboard.geosparkexam.presistence.GeosparkLog;
+import com.storyboard.geosparkexam.storage.Logs;
 
 import java.util.List;
 
 public class TripActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
+    private EditText mEdtDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class TripActivity extends AppCompatActivity {
         TextView startTrip = findViewById(R.id.textView_trip);
         TextView viewTrips = findViewById(R.id.textView_view);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        final EditText edtDescription = findViewById(R.id.edt_description);
+        mEdtDescription = findViewById(R.id.edt_description);
         final TripAdapter adapter = new TripAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -52,22 +53,28 @@ public class TripActivity extends AppCompatActivity {
         startTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showProgressDialog("Creating trip...");
-                GeoSpark.startTrip(TripActivity.this, edtDescription.getText().toString(), new GeoSparkTripCallBack() {
-                    @Override
-                    public void onSuccess(GeoSparkTrip geoSparkTrip) {
-                        stopProgressDialog();
-                        GeosparkLog.getInstance(TripActivity.this).createLog("Trip created", geoSparkTrip.getTripId());
-                        Toast.makeText(TripActivity.this, geoSparkTrip.getTripId(), Toast.LENGTH_SHORT).show();
-                    }
+                if (!GeoSpark.checkPermission(TripActivity.this)) {
+                    GeoSpark.requestPermission(TripActivity.this);
+                } else if (!GeoSpark.checkLocationServices(TripActivity.this)) {
+                    GeoSpark.requestLocationServices(TripActivity.this);
+                } else {
+                    showProgressDialog("Creating trip...");
+                    GeoSpark.startTrip(TripActivity.this, mEdtDescription.getText().toString(), new GeoSparkTripCallBack() {
+                        @Override
+                        public void onSuccess(GeoSparkTrip geoSparkTrip) {
+                            stopProgressDialog();
+                            Logs.getInstance(TripActivity.this).applicationLog("Trip created", geoSparkTrip.getTripId());
+                            Toast.makeText(TripActivity.this, geoSparkTrip.getTripId(), Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onFailure(GeoSparkError geoSparkError) {
-                        stopProgressDialog();
-                        GeosparkLog.getInstance(TripActivity.this).createLog("Trip create error", geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage());
-                        Toast.makeText(TripActivity.this, geoSparkError.getErrorMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(GeoSparkError geoSparkError) {
+                            stopProgressDialog();
+                            Logs.getInstance(TripActivity.this).applicationLog("Trip create error", geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage());
+                            Toast.makeText(TripActivity.this, geoSparkError.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
@@ -80,7 +87,7 @@ public class TripActivity extends AppCompatActivity {
                     public void onSuccess(GeoSparkTrips geoSparkTrips) {
                         stopProgressDialog();
                         List<GeoSparkTrips> trip = geoSparkTrips.getTripsId();
-                        GeosparkLog.getInstance(TripActivity.this).createLog("Active trips", "count " + String.valueOf(trip.size()));
+                        Logs.getInstance(TripActivity.this).applicationLog("Active trips", "count " + String.valueOf(trip.size()));
                         if (trip.size() != 0) {
                             adapter.addAllItem(trip);
                         }
@@ -89,7 +96,7 @@ public class TripActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(GeoSparkError geoSparkError) {
                         stopProgressDialog();
-                        GeosparkLog.getInstance(TripActivity.this).createLog("Active trips error", geoSparkError.getErrorCode() + geoSparkError.getErrorMessage());
+                        Logs.getInstance(TripActivity.this).applicationLog("Active trips error", geoSparkError.getErrorCode() + geoSparkError.getErrorMessage());
                     }
                 });
             }

@@ -1,6 +1,6 @@
 package com.storyboard.geosparkexam.trip;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +14,18 @@ import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkTrip;
 import com.geospark.lib.model.GeoSparkTrips;
 import com.storyboard.geosparkexam.R;
-import com.storyboard.geosparkexam.presistence.GeosparkLog;
+import com.storyboard.geosparkexam.storage.Logs;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter {
 
-    private Context mContext;
+    private Activity mActivity;
     private List<GeoSparkTrips> mGeoLog = new ArrayList<>();
 
-    TripAdapter(Context context) {
-        this.mContext = context;
+    TripAdapter(Activity activity) {
+        this.mActivity = activity;
     }
 
     void addAllItem(List<GeoSparkTrips> lst) {
@@ -50,20 +50,26 @@ public class TripAdapter extends RecyclerView.Adapter {
         ((ItemHolder) holder).mTxtStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GeoSpark.endTrip(mContext, geoSparkTrips.getTripId(), new GeoSparkTripCallBack() {
-                    @Override
-                    public void onSuccess(GeoSparkTrip geoSparkTrip) {
-                        GeosparkLog.getInstance(mContext).createLog("Trip ended", geoSparkTrips.getTripId());
-                        Toast.makeText(mContext, "Trip successfully ended.", Toast.LENGTH_SHORT).show();
-                        removeItem(position);
-                    }
+                if (!GeoSpark.checkPermission(mActivity)) {
+                    GeoSpark.requestPermission(mActivity);
+                } else if (!GeoSpark.checkLocationServices(mActivity)) {
+                    GeoSpark.requestLocationServices(mActivity);
+                } else {
+                    GeoSpark.endTrip(mActivity, geoSparkTrips.getTripId(), new GeoSparkTripCallBack() {
+                        @Override
+                        public void onSuccess(GeoSparkTrip geoSparkTrip) {
+                            Logs.getInstance(mActivity).applicationLog("Trip ended", geoSparkTrips.getTripId());
+                            Toast.makeText(mActivity, "Trip successfully ended.", Toast.LENGTH_SHORT).show();
+                            removeItem(position);
+                        }
 
-                    @Override
-                    public void onFailure(GeoSparkError geoSparkError) {
-                        GeosparkLog.getInstance(mContext).createLog("Trip ended error", geoSparkTrips.getTripId() + " " + geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage());
-                        Toast.makeText(mContext, geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(GeoSparkError geoSparkError) {
+                            Logs.getInstance(mActivity).applicationLog("Trip ended error", geoSparkTrips.getTripId() + " " + geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage());
+                            Toast.makeText(mActivity, geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }
