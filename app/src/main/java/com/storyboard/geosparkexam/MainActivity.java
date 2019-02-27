@@ -20,6 +20,7 @@ import com.geospark.lib.callback.GeoSparkCallBack;
 import com.geospark.lib.callback.GeoSparkLogoutCallBack;
 import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkUser;
+import com.storyboard.geosparkexam.currentlocation.CurrentLocationActivity;
 import com.storyboard.geosparkexam.geofence.GeofenceActivity;
 import com.storyboard.geosparkexam.locationlogs.LocationActivity;
 import com.storyboard.geosparkexam.locationlogs.MapActivity;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        App.getBatteryOptimisation(this);
+        GeoSpark.disableBatteryOptimization(this);
         initButtonStatus();
         ImageView settings = findViewById(R.id.img_settings);
         mCreateUser = findViewById(R.id.textView_create);
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTrip = findViewById(R.id.trip);
         mGeofence = findViewById(R.id.geofence);
         final TextView viewLog = findViewById(R.id.textView_viewlog);
+        final TextView viewLocation = findViewById(R.id.textView_location);
         mViewLatLng = findViewById(R.id.textView_viewlatlng);
         mViewMap = findViewById(R.id.textView_viewmap);
         mLogout = findViewById(R.id.textView_logout);
@@ -162,6 +164,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 logout();
                 break;
 
+            case R.id.textView_location:
+                startActivity(new Intent(MainActivity.this, CurrentLocationActivity.class));
+                break;
+
         }
     }
 
@@ -241,8 +247,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void startTracking() {
-        if (!GeoSpark.checkPermission(this)) {
-            GeoSpark.requestPermission(this);
+        if (!GeoSpark.checkLocationPermission(this)) {
+            GeoSpark.requestLocationPermission(this);
         } else if (!GeoSpark.checkLocationServices(this)) {
             GeoSpark.requestLocationServices(this);
         } else {

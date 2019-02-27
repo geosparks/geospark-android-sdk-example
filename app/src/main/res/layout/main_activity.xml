@@ -232,6 +232,32 @@
                 android:gravity="center|start"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:text="Current Location"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView_location"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/txt_height"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corner"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Current Location"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|start"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:text="Logs"
                 android:textColor="@color/black"
                 android:textSize="16sp"

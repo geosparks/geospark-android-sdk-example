@@ -53,8 +53,8 @@ public class TripActivity extends AppCompatActivity {
         startTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!GeoSpark.checkPermission(TripActivity.this)) {
-                    GeoSpark.requestPermission(TripActivity.this);
+                if (!GeoSpark.checkLocationPermission(TripActivity.this)) {
+                    GeoSpark.requestLocationPermission(TripActivity.this);
                 } else if (!GeoSpark.checkLocationServices(TripActivity.this)) {
                     GeoSpark.requestLocationServices(TripActivity.this);
                 } else {

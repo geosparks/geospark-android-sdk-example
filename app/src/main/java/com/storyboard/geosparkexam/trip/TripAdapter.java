@@ -50,8 +50,8 @@ public class TripAdapter extends RecyclerView.Adapter {
         ((ItemHolder) holder).mTxtStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!GeoSpark.checkPermission(mActivity)) {
-                    GeoSpark.requestPermission(mActivity);
+                if (!GeoSpark.checkLocationPermission(mActivity)) {
+                    GeoSpark.requestLocationPermission(mActivity);
                 } else if (!GeoSpark.checkLocationServices(mActivity)) {
                     GeoSpark.requestLocationServices(mActivity);
                 } else {

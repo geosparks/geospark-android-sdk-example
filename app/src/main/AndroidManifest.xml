@@ -35,6 +35,8 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -90,6 +92,13 @@
 
         <activity
             android:name="com.storyboard.geosparkexam.settings.SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_latlnglogs"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".currentlocation.CurrentLocationActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_latlnglogs"
             android:screenOrientation="portrait"
