@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#F0F0F0"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -35,11 +36,11 @@
     <EditText
         android:id="@+id/edt_description"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/txt_height"
+        android:layout_height="45dp"
         android:layout_below="@+id/top"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:background="@drawable/rounded_edit_corner"
         android:gravity="start|center"
         android:hint="Enter description"
@@ -55,8 +56,8 @@
         android:layout_height="@dimen/txt_height"
         android:layout_below="@+id/edt_description"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp">
 
         <TextView
             android:id="@+id/textView_trip"
@@ -88,6 +89,5 @@
         android:id="@+id/recyclerView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/trip"
-        android:layout_marginTop="10dp" />
+        android:layout_below="@+id/trip" />
 </RelativeLayout>

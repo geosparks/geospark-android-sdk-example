@@ -23,7 +23,7 @@
         android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="Copyright © 2017 Storyboard Inc. All rights reserved."
+        android:text="Copyright © 2019 GeoSpark Inc. All rights reserved."
         android:textColor="@color/black"
         android:textSize="12sp" />
 </RelativeLayout>

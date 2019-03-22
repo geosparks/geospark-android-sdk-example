@@ -77,7 +77,7 @@ public class TripActivity extends AppCompatActivity {
                 }
             }
         });
-
+        
         viewTrips.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +130,3 @@ public class TripActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 }
-
-
-

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#F0F0F0">
 
     <RelativeLayout
         android:id="@+id/top"
@@ -57,8 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
                     android:id="@+id/textView_create"
@@ -76,10 +77,10 @@
             <EditText
                 android:id="@+id/edt_userid"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/txt_height"
+                android:layout_height="45dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_edit_corner"
                 android:gravity="start|center"
                 android:hint="Enter userid"
@@ -94,8 +95,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_corner_disable"
                 android:gravity="center"
                 android:padding="4dp"
@@ -106,10 +107,10 @@
             <EditText
                 android:id="@+id/edt_description"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/txt_height"
+                android:layout_height="45dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_edit_corner"
                 android:gravity="start|center"
                 android:hint="Enter description"
@@ -124,8 +125,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_corner_disable"
                 android:gravity="center"
                 android:padding="4dp"
@@ -150,8 +151,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
                     android:id="@+id/textView_startlocation"
@@ -195,8 +196,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
                     android:id="@+id/trip"
@@ -242,14 +243,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_corner"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="Current Location"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -258,7 +260,7 @@
                 android:gravity="center|start"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="Logs"
+                android:text="Location Logs"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -267,11 +269,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
-                    android:id="@+id/textView_viewlog"
+                    android:id="@+id/textView_viewlatlng"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
@@ -279,7 +281,7 @@
                     android:background="@drawable/rounded_corner"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="@string/user"
+                    android:text="@string/location"
                     android:textColor="#FFF"
                     android:textSize="16sp" />
 
@@ -298,41 +300,51 @@
             </TableRow>
 
             <TextView
-                android:id="@+id/textView_viewlatlng"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|start"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="Application Logs"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView_viewlog"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/txt_height"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_corner"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="@string/location"
+                android:text="@string/user"
                 android:textColor="#FFF"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView_export"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/txt_height"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_corner"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="ExportToFile"
-                android:textColor="#FFF"
-                android:textSize="16sp" />
+                android:gravity="center|start"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="Logout"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView_logout"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/txt_height"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/rounded_corner_disable"
                 android:gravity="center"
                 android:padding="4dp"

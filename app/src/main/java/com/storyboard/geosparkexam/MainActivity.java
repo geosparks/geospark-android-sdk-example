@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -30,8 +29,6 @@ import com.storyboard.geosparkexam.storage.Logs;
 import com.storyboard.geosparkexam.trip.TripActivity;
 import com.storyboard.geosparkexam.userlogs.UserLogActivity;
 import com.storyboard.geosparkexam.util.App;
-
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -61,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         GeoSpark.disableBatteryOptimization(this);
+        GeoSpark.logger(MainActivity.this, true);
         initButtonStatus();
         ImageView settings = findViewById(R.id.img_settings);
         mCreateUser = findViewById(R.id.textView_create);
@@ -88,15 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewLog.setOnClickListener(this);
         mViewLatLng.setOnClickListener(this);
         mViewMap.setOnClickListener(this);
+        viewLocation.setOnClickListener(this);
         mLogout.setOnClickListener(this);
 
-        findViewById(R.id.textView_export).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{WRITE_EXTERNAL_STORAGE}, 7001);
-                //GeoSpark.exportToFile(MainActivity.this);
-            }
-        });
         checkButtonStatus();
     }
 
@@ -216,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSuccess(GeoSparkUser geoSparkUser) {
                 stopProgressDialog();
-                Logs.getInstance(MainActivity.this).applicationLog("Description", geoSparkUser.getUserId());
+                Logs.getInstance(MainActivity.this).applicationLog("Description: " + description + " ", geoSparkUser.getUserId());
             }
 
             @Override
@@ -292,7 +284,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSuccess(String message) {
                 Log.i("GeoSpark", message);
-                Logs.getInstance(MainActivity.this).applicationLog("Logout", message);
                 GeoSparkPref.saveInit(getApplicationContext());
                 Logs.getInstance(MainActivity.this).clearLocationLogs();
                 initButtonStatus();
@@ -302,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(GeoSparkError geoSparkError) {
-                Logs.getInstance(MainActivity.this).applicationLog("Logout", geoSparkError.getErrorMessage());
                 stopProgressDialog();
             }
         });
