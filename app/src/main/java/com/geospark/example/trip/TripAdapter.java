@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.geospark.example.R;
+import com.geospark.example.Util;
 import com.geospark.lib.GeoSpark;
 import com.geospark.lib.callback.GeoSparkTripCallBack;
 import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkTrip;
 import com.geospark.lib.model.GeoSparkTrips;
-import com.geospark.example.R;
-import com.geospark.example.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +101,7 @@ public class TripAdapter extends RecyclerView.Adapter {
             mTxtId = itemView.findViewById(R.id.txt_id);
             mTxtDate = itemView.findViewById(R.id.txt_date);
             mTxtStop = itemView.findViewById(R.id.txt_stop);
-            mProgressBar = itemView.findViewById(R.id.pb);
+            mProgressBar = itemView.findViewById(R.id.progressbar);
         }
     }
 }

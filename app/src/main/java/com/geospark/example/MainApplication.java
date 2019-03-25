@@ -12,6 +12,6 @@ public class MainApplication extends Application {
         super.onCreate();
         FirebaseApp.initializeApp(this);
         FirebaseInstanceId.getInstance().getToken();
-        GeoSpark.initialize(this, "bf1801d4940e700ed5b8c158dba5bac0dcc41cb0d2fb027a7fda6559857ef2bb");
+        GeoSpark.initialize(this, "YOUR-PUBLISHABLE-KEY");
     }
 }

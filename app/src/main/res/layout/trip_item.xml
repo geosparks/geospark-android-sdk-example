@@ -6,7 +6,7 @@
     android:background="@color/white">
 
     <RelativeLayout
-        android:id="@+id/rl_stop"
+        android:id="@+id/r_stop"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
@@ -29,7 +29,7 @@
             android:textStyle="bold" />
 
         <ProgressBar
-            android:id="@+id/pb"
+            android:id="@+id/progressbar"
             style="?android:attr/progressBarStyleSmallInverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/rl_stop"
+        android:layout_toLeftOf="@+id/r_stop"
         android:ellipsize="end"
         android:gravity="start|center"
         android:maxLines="1"
@@ -60,7 +60,7 @@
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/rl_stop"
+        android:layout_toLeftOf="@+id/r_stop"
         android:ellipsize="end"
         android:gravity="start|center"
         android:maxLines="1"
