@@ -1,24 +1,15 @@
 <resources>
     <string name="app_name">GeoSpark Example</string>
     <string name="log">User</string>
-    <string name="log_trip">Trip &amp; Geofence</string>
-    <string name="app_logs">User log</string>
-    <string name="app_latlnglogs">Location log</string>
-    <string name="app_map">Tracked location</string>
-    <string name="init">Initialize SDK</string>
     <string name="create">CreateUser</string>
     <string name="get">GetUser</string>
     <string name="desp">SetDescription</string>
     <string name="start">StartTracking</string>
     <string name="stop">StopTracking</string>
     <string name="trip">Trips</string>
+    <string name="log_trip">Trips</string>
     <string name="trips">ActiveTrips</string>
-    <string name="geofence">Geofence</string>
     <string name="starttrip">StartTrip</string>
     <string name="endtrip">EndTrip</string>
     <string name="logout">Logout</string>
-    <string name="user">Logs</string>
-    <string name="desc">SetDescription</string>
-    <string name="tracked">TrackedLocation</string>
-    <string name="location">LocationLog</string>
 </resources>

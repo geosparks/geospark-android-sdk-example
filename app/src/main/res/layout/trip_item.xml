@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="91dp"
+    android:layout_height="61dp"
     android:layout_marginTop="10dp"
     android:background="@color/white">
 
@@ -58,7 +58,7 @@
         android:id="@+id/txt_id"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/rl_stop"
         android:ellipsize="end"
@@ -75,21 +75,5 @@
         android:layout_height="0.5dp"
         android:layout_alignParentBottom="true"
         android:background="#0F0F0F" />
-
-    <TextView
-        android:id="@+id/txt_desp"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_above="@+id/view"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="1dp"
-        android:layout_toLeftOf="@+id/rl_stop"
-        android:ellipsize="end"
-        android:gravity="start|center"
-        android:maxLines="1"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:textColor="@color/black"
-        android:textSize="15sp" />
 
 </RelativeLayout>

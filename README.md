@@ -1,2 +1,6 @@
-# geospark-live-example
-Live application to test geospark sdk with credentials.
+# GeoSpark Android SDK Example
+
+An example app for android which implements the GeoSpark SDK and shows your location history.
+
+Documentation
+See the full documentation [here](https://geospark.co/docs/android).
