@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.geospark.example.R;
-import com.geospark.example.Util;
 import com.geospark.lib.GeoSpark;
 import com.geospark.lib.callback.GeoSparkTripCallBack;
+import com.geospark.lib.model.GeoSparkActiveTrips;
 import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkTrip;
-import com.geospark.lib.model.GeoSparkTrips;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +22,13 @@ import java.util.List;
 public class TripAdapter extends RecyclerView.Adapter {
 
     private Activity mActivity;
-    private List<GeoSparkTrips> mGeoLog = new ArrayList<>();
+    private List<GeoSparkActiveTrips> mGeoLog = new ArrayList<>();
 
     TripAdapter(Activity activity) {
         this.mActivity = activity;
     }
 
-    void addAllItem(List<GeoSparkTrips> lst) {
+    public  void  addAllItem(List<GeoSparkActiveTrips> lst) {
         mGeoLog.clear();
         mGeoLog.addAll(lst);
         notifyDataSetChanged();
@@ -44,34 +44,78 @@ public class TripAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        final GeoSparkTrips geoSparkTrips = mGeoLog.get(position);
-        ((ItemHolder) holder).mTxtId.setText(geoSparkTrips.getTripId());
-        ((ItemHolder) holder).mTxtDate.setText(geoSparkTrips.getTripStartedAt());
-        ((ItemHolder) holder).mTxtStop.setOnClickListener(new View.OnClickListener() {
+        final GeoSparkActiveTrips geoSparkActiveTrips = mGeoLog.get(position);
+        ((ItemHolder) holder).mTxtId.setText(geoSparkActiveTrips.getTripId());
+        ((ItemHolder) holder).mTxtDate.setText(geoSparkActiveTrips.getUpdatedAt());
+
+        if (geoSparkActiveTrips.getIsStarted()) {
+            ((ItemHolder) holder).mTxtStart.setVisibility(View.GONE);
+            ((ItemHolder) holder).mTxtStop.setVisibility(View.VISIBLE);
+            ((ItemHolder) holder).mTxtStop.setText("End trip");
+        } else {
+            ((ItemHolder) holder).mTxtStop.setVisibility(View.GONE);
+            ((ItemHolder) holder).mTxtStart.setVisibility(View.VISIBLE);
+            ((ItemHolder) holder).mTxtStart.setText("Start trip");
+        }
+
+        ((ItemHolder) holder).mTxtStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((ItemHolder) holder).mProgressBar.setVisibility(View.VISIBLE);
-                ((ItemHolder) holder).mTxtStop.setVisibility(View.GONE);
+                ((ItemHolder) holder).mTxtStart.setVisibility(View.GONE);
+
                 if (!GeoSpark.checkLocationPermission(mActivity)) {
                     GeoSpark.requestLocationPermission(mActivity);
                 } else if (!GeoSpark.checkLocationServices(mActivity)) {
                     GeoSpark.requestLocationServices(mActivity);
                 } else {
-                    GeoSpark.endTrip(mActivity, geoSparkTrips.getTripId(), new GeoSparkTripCallBack() {
+                    GeoSpark.startTrip(mActivity, geoSparkActiveTrips.getTripId(), null, new GeoSparkTripCallBack() {
+                        @Override
+                        public void onSuccess(GeoSparkTrip geoSparkTrip) {
+                            ((ItemHolder) holder).mProgressBar.setVisibility(View.GONE);
+                            ((ItemHolder) holder).mTxtStart.setVisibility(View.GONE);
+                            ((ItemHolder) holder).mTxtStop.setVisibility(View.VISIBLE);
+                            ((ItemHolder) holder).mTxtStop.setText("End trip");
+                            Toast.makeText(mActivity, "Trip successfully started.", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(GeoSparkError geoSparkError) {
+                            ((ItemHolder) holder).mProgressBar.setVisibility(View.GONE);
+                            ((ItemHolder) holder).mTxtStart.setVisibility(View.VISIBLE);
+                            Toast.makeText(mActivity, geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+            }
+        });
+
+        ((ItemHolder) holder).mTxtStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ItemHolder) holder).mProgressBar.setVisibility(View.VISIBLE);
+                ((ItemHolder) holder).mTxtStop.setVisibility(View.GONE);
+
+                if (!GeoSpark.checkLocationPermission(mActivity)) {
+                    GeoSpark.requestLocationPermission(mActivity);
+                } else if (!GeoSpark.checkLocationServices(mActivity)) {
+                    GeoSpark.requestLocationServices(mActivity);
+                } else {
+                    GeoSpark.endTrip(mActivity, geoSparkActiveTrips.getTripId(), new GeoSparkTripCallBack() {
 
                         @Override
                         public void onSuccess(GeoSparkTrip geoSparkTrip) {
                             ((ItemHolder) holder).mProgressBar.setVisibility(View.GONE);
-                            ((ItemHolder) holder).mTxtStop.setVisibility(View.VISIBLE);
+                            Toast.makeText(mActivity, "Trip successfully ended.", Toast.LENGTH_SHORT).show();
                             removeItem(position);
-                            Util.showToast(mActivity, "Trip successfully ended.");
                         }
 
                         @Override
                         public void onFailure(GeoSparkError geoSparkError) {
                             ((ItemHolder) holder).mProgressBar.setVisibility(View.GONE);
                             ((ItemHolder) holder).mTxtStop.setVisibility(View.VISIBLE);
-                            Util.showToast(mActivity, geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage());
+                            Toast.makeText(mActivity, geoSparkError.getErrorCode() + " " + geoSparkError.getErrorMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -93,6 +137,7 @@ public class TripAdapter extends RecyclerView.Adapter {
 
         private TextView mTxtId;
         private TextView mTxtDate;
+        private TextView mTxtStart;
         private TextView mTxtStop;
         private ProgressBar mProgressBar;
 
@@ -100,8 +145,9 @@ public class TripAdapter extends RecyclerView.Adapter {
             super(itemView);
             mTxtId = itemView.findViewById(R.id.txt_id);
             mTxtDate = itemView.findViewById(R.id.txt_date);
+            mTxtStart = itemView.findViewById(R.id.txt_start);
             mTxtStop = itemView.findViewById(R.id.txt_stop);
-            mProgressBar = itemView.findViewById(R.id.progressbar);
+            mProgressBar = itemView.findViewById(R.id.pb);
         }
     }
 }
