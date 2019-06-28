@@ -8,7 +8,6 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.geospark.example.MainActivity;
-import com.geospark.example.Util;
 
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -39,7 +38,7 @@ public class GeoSparkImplicitService extends JobService {
     public boolean onStopJob(JobParameters params) {
         try {
             unregisterReceiver(mLocationReceiver);
-            Util.locationJob(this);
+            MainActivity.locationJob(this);
         } catch (Exception e) {
         }
         return true;

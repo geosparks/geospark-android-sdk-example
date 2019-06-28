@@ -3,41 +3,50 @@ package com.geospark.example.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class GeoSparkPref {
+import java.util.Set;
 
-    private static final String INIT = "INIT";
-    private static final String USER_ID = "USERID";
-    private static final String DESCRIPTION = "DESCRIPTION";
-    private static final String CRAETEUSER = "CRAETEUSER";
-    private static final String GETUSER = "GETUSER";
-    private static final String STARTTRACK = "STARTTRACK";
-    private static final String STOPTRACK = "STOPTRACK";
-    private static final String LOGOUT = "LOGOUT";
+public class GeoSparkPref {
+    private static String shared_prefer = "GEOSPARK";
 
     private static SharedPreferences getInstance(Context context) {
-        return context.getSharedPreferences("GEOSPARK", Context.MODE_PRIVATE);
+        return context.getSharedPreferences(shared_prefer, Context.MODE_PRIVATE);
     }
 
     private static void setString(Context context, String tagName, String value) {
-        SharedPreferences.Editor mEditor = getInstance(context).edit();
+        SharedPreferences mMainSharedPreferences = context.getSharedPreferences(shared_prefer, Context.MODE_PRIVATE);
+        SharedPreferences.Editor mEditor = mMainSharedPreferences.edit();
         mEditor.putString(tagName, value);
         mEditor.apply();
         mEditor.commit();
     }
 
     private static String getString(Context context, String tagName) {
-        return getInstance(context).getString(tagName, null);
+        SharedPreferences mMainSharedPreferences = context.getSharedPreferences(shared_prefer, Context.MODE_PRIVATE);
+        return mMainSharedPreferences.getString(tagName, null);
     }
 
     private static void setBoolean(Context context, String tagName, boolean value) {
-        SharedPreferences.Editor mEditor = getInstance(context).edit();
+        SharedPreferences mMainSharedPreferences = context.getSharedPreferences(shared_prefer, Context.MODE_PRIVATE);
+        SharedPreferences.Editor mEditor = mMainSharedPreferences.edit();
         mEditor.putBoolean(tagName, value);
         mEditor.apply();
         mEditor.commit();
     }
 
     private static boolean getBoolean(Context context, String tagName) {
-        return getInstance(context).getBoolean(tagName, false);
+        SharedPreferences mMainSharedPreferences = context.getSharedPreferences(shared_prefer, Context.MODE_PRIVATE);
+        return mMainSharedPreferences.getBoolean(tagName, false);
+    }
+
+    private static void setStringSet(Context context, String name, Set<String> value) {
+        SharedPreferences.Editor mEditor = getInstance(context).edit();
+        mEditor.putStringSet(name, value);
+        mEditor.apply();
+        mEditor.commit();
+    }
+
+    private static Set<String> getStringSet(Context context, String name) {
+        return getInstance(context).getStringSet(name, null);
     }
 
     public static void removeItem(Context context, String name) {
@@ -47,63 +56,94 @@ public class GeoSparkPref {
         editor.commit();
     }
 
-    public static void setUserCreated(Context context) {
+    public static void clearInfo(Context context, String tag) {
+        SharedPreferences mSharedPreferences = context.getSharedPreferences(shared_prefer, Context.MODE_PRIVATE);
+        SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+        mEditor.remove(tag);
+        mEditor.apply();
+        mEditor.commit();
+    }
+
+    /************** Save details **************/
+    public static void saveInit(Context context) {
         GeoSparkPref.setBoolean(context, "INIT", false);
     }
 
-    public static boolean isUserCreated(Context context) {
-        return getBoolean(context, INIT);
-    }
-
     public static void setUserId(Context context, String userId) {
-        setString(context, USER_ID, userId);
+        setString(context, "USERID", userId);
     }
 
     public static String getUserId(Context context) {
-        return getString(context, USER_ID);
+        return getString(context, "USERID");
     }
 
     public static void setDescription(Context context, String desc) {
-        setString(context, DESCRIPTION, desc);
+        setString(context, "DESCRIPTION", desc);
     }
 
     public static String getDescription(Context context) {
-        return getString(context, DESCRIPTION);
+        return getString(context, "DESCRIPTION");
     }
 
-    public static void setButtonStatus(Context context, boolean createUser, boolean getUser, boolean startTrack, boolean logout) {
-        setBoolean(context, INIT, true);
-        setBoolean(context, CRAETEUSER, createUser);
-        setBoolean(context, GETUSER, getUser);
-        setBoolean(context, STARTTRACK, startTrack);
-        setBoolean(context, STOPTRACK, false);
-        setBoolean(context, LOGOUT, logout);
-    }
 
-    public static boolean getCreateButtonStatus(Context context) {
-        return getBoolean(context, CRAETEUSER);
-    }
-
-    public static boolean getUserButtonStatus(Context context) {
-        return getBoolean(context, GETUSER);
-    }
-
-    public static boolean getStartTrackButtonStatus(Context context) {
-        return getBoolean(context, STARTTRACK);
-    }
-
-    public static boolean getStopTrackButtonStatus(Context context) {
-        return getBoolean(context, STOPTRACK);
-    }
-
-    public static boolean getLogout(Context context) {
-        return getBoolean(context, LOGOUT);
+    public static void changeButtonStatus(Context context, boolean createUser, boolean getUser, boolean startTrack, boolean logout) {
+        setBoolean(context, "CRAETEUSER", createUser);
+        setBoolean(context, "GETUSER", getUser);
+        setBoolean(context, "STARTTRACK", startTrack);
+        setBoolean(context, "STOPTRACK", false);
+        setBoolean(context, "LOGOUT", logout);
+        setBoolean(context, "INIT", true);
     }
 
     public static void trackStatus(Context context, boolean startTrack, boolean stopTrack) {
-        setBoolean(context, STARTTRACK, startTrack);
-        setBoolean(context, STOPTRACK, stopTrack);
+        setBoolean(context, "STARTTRACK", startTrack);
+        setBoolean(context, "STOPTRACK", stopTrack);
+        setBoolean(context, "STOPTMOCKTRACK", false);
     }
+
+    public static void setTrackInAppStateSettings(Context context, Set<String> stringSet) {
+        removeItem(context, "APPSTATE");
+        setStringSet(context, "APPSTATE", stringSet);
+    }
+
+    public static void setTrackingMotion(Context context, Set<String> stringSet) {
+        removeItem(context, "MOTIONSTATE");
+        setStringSet(context, "MOTIONSTATE", stringSet);
+    }
+
+    /************** Get details **************/
+    public static boolean getInit(Context context) {
+        return getBoolean(context, "INIT");
+    }
+
+    public static boolean getCreateUser(Context context) {
+        return getBoolean(context, "CRAETEUSER");
+    }
+
+    public static boolean getUser(Context context) {
+        return getBoolean(context, "GETUSER");
+    }
+
+    public static boolean getStartTrack(Context context) {
+        return getBoolean(context, "STARTTRACK");
+    }
+
+    public static boolean getStopTrack(Context context) {
+        return getBoolean(context, "STOPTRACK");
+    }
+
+    public static Set<String> getTrackInAppStateSettings(Context context) {
+        return getStringSet(context, "APPSTATE");
+    }
+
+    public static Set<String> getTrackingMotion(Context context) {
+        return getStringSet(context, "MOTIONSTATE");
+    }
+
+    public static boolean getLogout(Context context) {
+        return getBoolean(context, "LOGOUT");
+    }
+
 }
 
 

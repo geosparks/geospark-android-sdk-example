@@ -11,7 +11,6 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.geospark.example.R;
-import com.geospark.example.Util;
 import com.geospark.lib.GeoSpark;
 import com.geospark.lib.callback.GeoSparkTripsCallBack;
 import com.geospark.lib.model.GeoSparkActiveTrips;
@@ -26,17 +25,20 @@ public class TripActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trip_activity);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         ImageView txtBack = findViewById(R.id.txt_back);
-        TripAdapter adapter = new TripAdapter(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        final TripAdapter adapter = new TripAdapter(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+
         txtBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
+
         showProgressDialog("Loading trips...");
         GeoSpark.activeTrips(TripActivity.this, new GeoSparkTripsCallBack() {
             @Override
@@ -44,15 +46,12 @@ public class TripActivity extends AppCompatActivity {
                 stopProgressDialog();
                 if (geoSparkActiveTrips.size() != 0) {
                     adapter.addAllItem(geoSparkActiveTrips);
-                } else {
-                    Util.showToast(TripActivity.this, "No trips available");
                 }
             }
 
             @Override
             public void onFailure(GeoSparkError geoSparkError) {
                 stopProgressDialog();
-                Util.showToast(TripActivity.this, geoSparkError.getErrorMessage());
             }
         });
     }
@@ -76,6 +75,12 @@ public class TripActivity extends AppCompatActivity {
                 }
             }, 1000);
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
 
