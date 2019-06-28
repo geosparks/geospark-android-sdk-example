@@ -19,6 +19,25 @@ import com.geospark.lib.model.GeoSparkTrip;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.geospark.example.R;
+import com.geospark.lib.GeoSpark;
+import com.geospark.lib.callback.GeoSparkTripCallBack;
+import com.geospark.lib.model.GeoSparkActiveTrips;
+import com.geospark.lib.model.GeoSparkError;
+import com.geospark.lib.model.GeoSparkTrip;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class TripAdapter extends RecyclerView.Adapter {
 
     private Activity mActivity;

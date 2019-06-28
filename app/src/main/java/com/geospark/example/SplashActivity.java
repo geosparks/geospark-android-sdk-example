@@ -14,8 +14,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity);
-        FirebaseApp.initializeApp(this);
-        FirebaseInstanceId.getInstance().getToken();
         Thread background = new Thread() {
             public void run() {
                 try {

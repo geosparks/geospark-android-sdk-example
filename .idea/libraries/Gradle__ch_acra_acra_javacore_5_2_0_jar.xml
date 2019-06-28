@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: ch.acra:acra-javacore:5.2.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.acra/acra-javacore/5.2.0/cb255bc93cd963985a31268eb4ad1ba642617af2/acra-javacore-5.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ch.acra/acra-javacore/5.2.0/a4569cea14454935bdc06938c5998b968229fd27/acra-javacore-5.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

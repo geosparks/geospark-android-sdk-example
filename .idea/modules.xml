@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Workspace_Example.iml" filepath="$PROJECT_DIR$/Workspace_Example.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Workspace_Public_Example.iml" filepath="$PROJECT_DIR$/Workspace_Public_Example.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/geospark-android-sdk-example.iml" filepath="$PROJECT_DIR$/geospark-android-sdk-example.iml" />
     </modules>
   </component>
 </project>
