@@ -5,3 +5,4 @@
 *.ser
 *.iml
 *.properties
+build/android-profile/*
