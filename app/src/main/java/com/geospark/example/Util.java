@@ -7,7 +7,7 @@ import android.content.Context;
 import android.os.Build;
 import android.widget.Toast;
 
-import com.geospark.example.locationlogs.GeoSparkImplicitService;
+import com.geospark.example.service.GeoSparkImplicitService;
 
 public class Util {
 

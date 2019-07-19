@@ -1,12 +1,11 @@
-package com.geospark.example;
+package com.geospark.example.ui;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.geospark.example.R;
 
 public class SplashActivity extends AppCompatActivity {
 

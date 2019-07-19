@@ -3,12 +3,7 @@ package com.geospark.example.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.Set;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-
-public class GeoSparkPref {
+public class GSPreferences {
 
     private static final String INIT = "INIT";
     private static final String USER_ID = "USERID";
@@ -52,11 +47,11 @@ public class GeoSparkPref {
         editor.commit();
     }
 
-    public static void setUserCreated(Context context) {
-        GeoSparkPref.setBoolean(context, "INIT", false);
+    public static void setInit(Context context) {
+        GSPreferences.setBoolean(context, "INIT", false);
     }
 
-    public static boolean isUserCreated(Context context) {
+    public static boolean isInitialized(Context context) {
         return getBoolean(context, INIT);
     }
 
@@ -76,7 +71,7 @@ public class GeoSparkPref {
         return getString(context, DESCRIPTION);
     }
 
-    public static void setButtonStatus(Context context, boolean createUser, boolean getUser, boolean startTrack, boolean logout) {
+    public static void setViewStatus(Context context, boolean createUser, boolean getUser, boolean startTrack, boolean logout) {
         setBoolean(context, INIT, true);
         setBoolean(context, CRAETEUSER, createUser);
         setBoolean(context, GETUSER, getUser);
@@ -85,28 +80,29 @@ public class GeoSparkPref {
         setBoolean(context, LOGOUT, logout);
     }
 
-    public static boolean getCreateButtonStatus(Context context) {
-        return getBoolean(context, CRAETEUSER);
-    }
-
-    public static boolean getUserButtonStatus(Context context) {
-        return getBoolean(context, GETUSER);
-    }
-
-    public static boolean getStartTrackButtonStatus(Context context) {
-        return getBoolean(context, STARTTRACK);
-    }
-
-    public static boolean getStopTrackButtonStatus(Context context) {
-        return getBoolean(context, STOPTRACK);
-    }
-
-    public static boolean getLogout(Context context) {
-        return getBoolean(context, LOGOUT);
-    }
-
-    public static void trackStatus(Context context, boolean startTrack, boolean stopTrack) {
+    public static void setTrackingView(Context context, boolean startTrack, boolean stopTrack) {
         setBoolean(context, STARTTRACK, startTrack);
         setBoolean(context, STOPTRACK, stopTrack);
     }
+
+    public static boolean isCreateViewEnabled(Context context) {
+        return getBoolean(context, CRAETEUSER);
+    }
+
+    public static boolean isGetUserViewEnabled(Context context) {
+        return getBoolean(context, GETUSER);
+    }
+
+    public static boolean isStartTrackingEnabled(Context context) {
+        return getBoolean(context, STARTTRACK);
+    }
+
+    public static boolean isStopTrackingEnabled(Context context) {
+        return getBoolean(context, STOPTRACK);
+    }
+
+    public static boolean isLogoutViewEnabled(Context context) {
+        return getBoolean(context, LOGOUT);
+    }
+
 }

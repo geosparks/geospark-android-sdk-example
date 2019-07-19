@@ -1,4 +1,4 @@
-package com.geospark.example.locationlogs;
+package com.geospark.example.service;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
@@ -7,9 +7,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import com.geospark.example.MainActivity;
 import com.geospark.example.Util;
-
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class GeoSparkImplicitService extends JobService {

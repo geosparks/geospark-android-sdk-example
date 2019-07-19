@@ -1,4 +1,4 @@
-package com.geospark.example.locationlogs;
+package com.geospark.example.service;
 
 import android.content.Context;
 import android.location.Location;

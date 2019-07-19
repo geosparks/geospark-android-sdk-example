@@ -1,4 +1,4 @@
-package com.geospark.example.trip;
+package com.geospark.example.ui;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.geospark.example.R;
 import com.geospark.example.Util;
+import com.geospark.example.adapter.TripAdapter;
 import com.geospark.lib.GeoSpark;
 import com.geospark.lib.callback.GeoSparkTripsCallBack;
 import com.geospark.lib.model.GeoSparkActiveTrips;
@@ -21,29 +22,34 @@ import java.util.List;
 
 public class TripActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
+    private TripAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trip_activity);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        mAdapter = new TripAdapter(this);
         ImageView txtBack = findViewById(R.id.txt_back);
-        TripAdapter adapter = new TripAdapter(this);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(mAdapter);
         txtBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        showProgressDialog("Loading trips...");
+        getActiveTrips();
+    }
+
+    private void getActiveTrips() {
+        showProgressDialog();
         GeoSpark.activeTrips(TripActivity.this, new GeoSparkTripsCallBack() {
             @Override
             public void onSuccess(List<GeoSparkActiveTrips> geoSparkActiveTrips) {
                 stopProgressDialog();
                 if (geoSparkActiveTrips.size() != 0) {
-                    adapter.addAllItem(geoSparkActiveTrips);
+                    mAdapter.addAll(geoSparkActiveTrips);
                 } else {
                     Util.showToast(TripActivity.this, "No trips available");
                 }
@@ -57,10 +63,10 @@ public class TripActivity extends AppCompatActivity {
         });
     }
 
-    private void showProgressDialog(String message) {
+    private void showProgressDialog() {
         progressDialog = new ProgressDialog(TripActivity.this);
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.setMessage(message);
+        progressDialog.setMessage("Loading active trips...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(false);
         progressDialog.setCanceledOnTouchOutside(true);
