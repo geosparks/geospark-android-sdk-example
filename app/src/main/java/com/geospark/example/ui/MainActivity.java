@@ -19,7 +19,6 @@ import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkUser;
 import com.geospark.example.storage.GSPreferences;
 
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView mCreateUser;
     private EditText mEdtUserID;
@@ -111,10 +110,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    /*
-     * This method "GeoSpark.notificationOpenedHandler(this, getIntent());" will throw error
-     * "E/GeoSpark: GS402: SDK or userId not initialized." in Logcat, If user not created.
-     */
     private void init() {
         if (GSPreferences.getUserId(this) != null) {
             mUserID.setText(GSPreferences.getUserId(this));
@@ -123,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDesc.setText(GSPreferences.getDescription(this));
         }
         GeoSpark.disableBatteryOptimization(this);
-        GeoSpark.notificationOpenedHandler(this, getIntent());
         checkView();
     }
 
@@ -221,8 +215,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkView();
                 mUserID.setText(null);
                 mDesc.setText(null);
-                GSPreferences.removeItem(MainActivity.this, "USERID");
-                GSPreferences.removeItem(MainActivity.this, "DESCRIPTION");
+                GSPreferences.removeItem(MainActivity.this, GSPreferences.USER_ID);
+                GSPreferences.removeItem(MainActivity.this, GSPreferences.DESCRIPTION);
             }
 
             @Override
