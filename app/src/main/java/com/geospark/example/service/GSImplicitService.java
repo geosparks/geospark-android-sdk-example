@@ -5,12 +5,14 @@ import android.app.job.JobService;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
+
+import androidx.annotation.RequiresApi;
 
 import com.geospark.example.Util;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class GeoSparkImplicitService extends JobService {
+public class GSImplicitService extends JobService {
     LocationReceiver mLocationReceiver;
 
     @Override

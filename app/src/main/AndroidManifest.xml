@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.geospark.example">
 
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -53,7 +52,7 @@
         </receiver>
 
         <service
-            android:name="com.geospark.example.service.GeoSparkImplicitService"
+            android:name="com.geospark.example.service.GSImplicitService"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />

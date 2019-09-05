@@ -12,4 +12,13 @@
     <string name="starttrip">StartTrip</string>
     <string name="endtrip">EndTrip</string>
     <string name="logout">Logout</string>
+    <string name="image">image</string>
+    <string name="copyright_2019_geospark_inc_all_rights_reserved">Copyright © 2019 GeoSpark Inc. All rights reserved.</string>
+    <string name="enter_userid">Enter userid</string>
+    <string name="user_description">User Description</string>
+    <string name="enter_description">Enter description</string>
+    <string name="user_details">User Details</string>
+    <string name="userid">UserId:</string>
+    <string name="description">Description:</string>
+    <string name="tracking">Tracking</string>
 </resources>

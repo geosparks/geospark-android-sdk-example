@@ -3,12 +3,14 @@ package com.geospark.example.ui;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.geospark.example.R;
 import com.geospark.example.Util;
@@ -27,11 +29,11 @@ public class TripActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.trip_activity);
+        setContentView(R.layout.activity_trip);
         mAdapter = new TripAdapter(this);
         ImageView txtBack = findViewById(R.id.txt_back);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(mAdapter);
         txtBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,14 +44,14 @@ public class TripActivity extends AppCompatActivity {
         getActiveTrips();
     }
 
-    private void getActiveTrips() {
+    public void getActiveTrips() {
         showProgressDialog();
-        GeoSpark.activeTrips(TripActivity.this, new GeoSparkTripsCallBack() {
+        GeoSpark.activeTrips(this, new GeoSparkTripsCallBack() {
             @Override
             public void onSuccess(List<GeoSparkActiveTrips> geoSparkActiveTrips) {
                 stopProgressDialog();
                 if (geoSparkActiveTrips.size() != 0) {
-                    mAdapter.addAll(geoSparkActiveTrips);
+                    mAdapter.addAllItem(geoSparkActiveTrips);
                 } else {
                     Util.showToast(TripActivity.this, "No trips available");
                 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
 
     <RelativeLayout
         android:id="@+id/top"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary">
@@ -15,6 +15,7 @@
             android:id="@+id/txt_back"
             android:layout_width="50dp"
             android:layout_height="match_parent"
+            android:contentDescription="@string/image"
             android:gravity="start|center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -23,20 +24,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/txt_back"
             android:layout_toRightOf="@+id/txt_back"
-            android:gravity="center|left"
+            android:gravity="start|center"
             android:padding="4dp"
             android:text="@string/trip"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/colorWhite"
             android:textSize="18sp" />
     </RelativeLayout>
 
-
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/top"
         android:layout_marginTop="10dp" />
 </RelativeLayout>

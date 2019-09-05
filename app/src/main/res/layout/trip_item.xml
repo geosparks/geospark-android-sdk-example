@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="67dp"
     android:background="@color/white">
 
     <RelativeLayout
@@ -14,32 +14,32 @@
 
         <TextView
             android:id="@+id/txt_start"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:ellipsize="end"
-            android:gravity="start|center"
+            android:gravity="center"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/txt_start"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:ellipsize="end"
-            android:gravity="start|center"
+            android:gravity="center"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <ProgressBar
@@ -55,24 +55,11 @@
     <TextView
         android:id="@+id/txt_date"
         android:layout_width="match_parent"
-        android:layout_height="29dp"
+        android:layout_height="33dp"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_toLeftOf="@+id/rl_trip"
-        android:ellipsize="end"
-        android:gravity="start|center"
-        android:maxLines="1"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:textColor="@color/black"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/txt_id"
-        android:layout_width="match_parent"
-        android:layout_height="29dp"
-        android:layout_below="@+id/txt_date"
-        android:layout_marginRight="5dp"
+        android:layout_toStartOf="@+id/rl_trip"
         android:layout_toLeftOf="@+id/rl_trip"
         android:ellipsize="end"
         android:gravity="start|center"
@@ -85,8 +72,26 @@
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/txt_id"
-        android:background="#0F0F0F" />
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorGrey" />
+
+    <TextView
+        android:id="@+id/txt_id"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/rl_trip"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toStartOf="@+id/rl_trip"
+        android:layout_toLeftOf="@+id/rl_trip"
+        android:ellipsize="end"
+        android:gravity="start|center"
+        android:maxLines="1"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
 
 </RelativeLayout>

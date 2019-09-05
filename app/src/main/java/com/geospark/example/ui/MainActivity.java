@@ -4,18 +4,22 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.geospark.example.R;
 import com.geospark.example.Util;
 import com.geospark.lib.GeoSpark;
 import com.geospark.lib.callback.GeoSparkCallBack;
+import com.geospark.lib.callback.GeoSparkEventsCallback;
 import com.geospark.lib.callback.GeoSparkLogoutCallBack;
 import com.geospark.lib.model.GeoSparkError;
+import com.geospark.lib.model.GeoSparkEvents;
 import com.geospark.lib.model.GeoSparkUser;
 import com.geospark.example.storage.GSPreferences;
 
@@ -41,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_main);
         initView();
         mCreateUser = findViewById(R.id.textView_create);
         mEdtUserID = findViewById(R.id.edt_userid);
@@ -63,6 +67,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSetDescription.setOnClickListener(this);
         mLogout.setOnClickListener(this);
         init();
+    }
+
+    private void init() {
+        if (GSPreferences.getUserId(this) != null) {
+            mUserID.setText(GSPreferences.getUserId(this));
+        }
+        if (GSPreferences.getDescription(this) != null) {
+            mDesc.setText(GSPreferences.getDescription(this));
+        }
+        GeoSpark.disableBatteryOptimization(this);
+        checkView();
     }
 
     @Override
@@ -110,28 +125,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void init() {
-        if (GSPreferences.getUserId(this) != null) {
-            mUserID.setText(GSPreferences.getUserId(this));
-        }
-        if (GSPreferences.getDescription(this) != null) {
-            mDesc.setText(GSPreferences.getDescription(this));
-        }
-        GeoSpark.disableBatteryOptimization(this);
-        checkView();
-    }
-
+    /*
+        Quick start:
+        -------------------
+        Step 3: Create user
+    */
     private void createUser() {
         GeoSpark.createUser(this, mEdtDescription.getText().toString(), new GeoSparkCallBack() {
             @Override
             public void onSuccess(GeoSparkUser geoSparkUser) {
-                stopProgressDialog();
-                successView();
-                if (geoSparkUser.getUserId() != null) {
-                    mUserID.setText(geoSparkUser.getUserId());
-                    GSPreferences.setUserId(MainActivity.this, geoSparkUser.getUserId());
-                    Util.showToast(MainActivity.this, "User created successfully");
-                }
+                toggleEvents(geoSparkUser.getUserId());
             }
 
             @Override
@@ -146,13 +149,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         GeoSpark.getUser(this, userId, new GeoSparkCallBack() {
             @Override
             public void onSuccess(GeoSparkUser geoSparkUser) {
+                toggleEvents(geoSparkUser.getUserId());
+            }
+
+            @Override
+            public void onFailure(GeoSparkError geoSparkError) {
+                stopProgressDialog();
+                failureView();
+            }
+        });
+    }
+
+    private void toggleEvents(String userId) {
+        GeoSpark.toggleEvents(this, true, true, true, new GeoSparkEventsCallback() {
+            @Override
+            public void onSuccess(GeoSparkEvents geoSparkEvents) {
                 stopProgressDialog();
                 successView();
-                if (geoSparkUser.getUserId() != null) {
-                    mUserID.setText(geoSparkUser.getUserId());
-                    GSPreferences.setUserId(MainActivity.this, geoSparkUser.getUserId());
-                    Util.showToast(MainActivity.this, "User initialized successfully");
-                }
+                mUserID.setText(userId);
+                GSPreferences.setUserId(MainActivity.this, userId);
+                Util.showToast(MainActivity.this, "User created successfully");
             }
 
             @Override
@@ -168,8 +184,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSuccess(GeoSparkUser geoSparkUser) {
                 stopProgressDialog();
-                mDesc.setText(description);
                 GSPreferences.setDescription(MainActivity.this, description);
+                mDesc.setText(description);
                 Util.showToast(MainActivity.this, "Description added successfully");
             }
 
@@ -180,24 +196,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    /*
+       Quick start:
+       -------------------
+       Step 4: Start Location Tracking
+    */
     private void startTracking() {
         if (!GeoSpark.checkLocationPermission(this)) {
             GeoSpark.requestLocationPermission(this);
         } else if (!GeoSpark.checkLocationServices(this)) {
             GeoSpark.requestLocationServices(this);
         } else {
-            Util.showToast(this, "Tracking Started");
             GeoSpark.startTracking(this);
             GSPreferences.setTrackingView(getApplicationContext(), false, true);
             checkView();
+            Util.showToast(this, "Tracking Started");
         }
     }
 
     private void stopTracking() {
-        Util.showToast(this, "Tracking Stopped");
         GeoSpark.stopTracking(this);
         GSPreferences.setTrackingView(getApplicationContext(), true, false);
         checkView();
+        Util.showToast(this, "Tracking Stopped");
     }
 
     private void trip() {
