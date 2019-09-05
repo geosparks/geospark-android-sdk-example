@@ -11,3 +11,4 @@ build/android-profile/*
 *.properties
 *.lock
 *.ser
+.idea/workspace.xml
