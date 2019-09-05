@@ -307,7 +307,6 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="not.eligible.for.single.variant.sync" value="true" />
     <property name="show.do.not.ask.upgrade.gradle.plugin" value="3.0.1" />
   </component>
   <component name="RecentsManager">

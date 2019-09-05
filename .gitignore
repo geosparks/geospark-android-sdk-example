@@ -7,3 +7,7 @@
 *.properties
 build/android-profile/*
 *.lock
+*.bin
+*.properties
+*.lock
+*.ser
