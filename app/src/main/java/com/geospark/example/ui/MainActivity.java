@@ -2,9 +2,9 @@ package com.geospark.example.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.geospark.example.R;
 import com.geospark.example.Util;
+import com.geospark.example.storage.GSPreferences;
 import com.geospark.lib.GeoSpark;
 import com.geospark.lib.callback.GeoSparkCallBack;
 import com.geospark.lib.callback.GeoSparkEventsCallback;
@@ -21,7 +22,6 @@ import com.geospark.lib.callback.GeoSparkLogoutCallBack;
 import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkEvents;
 import com.geospark.lib.model.GeoSparkUser;
-import com.geospark.example.storage.GSPreferences;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView mCreateUser;
@@ -108,7 +108,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.textView_startlocation:
-                startTracking();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    startTrackingQ();
+                } else {
+                    startTracking();
+                }
                 break;
 
             case R.id.textView_stoplocation:
@@ -204,6 +208,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void startTracking() {
         if (!GeoSpark.checkLocationPermission(this)) {
             GeoSpark.requestLocationPermission(this);
+        } else if (!GeoSpark.checkLocationServices(this)) {
+            GeoSpark.requestLocationServices(this);
+        } else {
+            GeoSpark.startTracking(this);
+            GSPreferences.setTrackingView(getApplicationContext(), false, true);
+            checkView();
+            Util.showToast(this, "Tracking Started");
+        }
+    }
+
+    /*
+       Quick start: If above Android 10
+       -------------------
+       Step 4: Start Location Tracking
+    */
+    private void startTrackingQ() {
+        if (!GeoSpark.checkActivityPermission(this)) {
+            GeoSpark.requestActivityPermission(this);
+        } else if (!GeoSpark.checkLocationPermission(this)) {
+            GeoSpark.requestLocationPermission(this);
+        } else if (!GeoSpark.checkBackgroundLocationPermission(this)) {
+            GeoSpark.requestBackgroundLocationPermission(this);
         } else if (!GeoSpark.checkLocationServices(this)) {
             GeoSpark.requestLocationServices(this);
         } else {
