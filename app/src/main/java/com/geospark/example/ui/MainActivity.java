@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.geospark.example.R;
 import com.geospark.example.Util;
+import com.geospark.example.service.GSImplicitService;
 import com.geospark.example.storage.GSPreferences;
 import com.geospark.lib.GeoSpark;
 import com.geospark.lib.callback.GeoSparkCallBack;
@@ -39,7 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        Util.locationJob(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startService(new Intent(this, GSImplicitService.class));
+        }
     }
 
     @Override
@@ -108,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.textView_startlocation:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startService(new Intent(this, GSImplicitService.class));
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     startTrackingQ();
                 } else {
@@ -116,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.textView_stoplocation:
+                stopService(new Intent(this, GSImplicitService.class));
                 stopTracking();
                 break;
 

@@ -54,9 +54,8 @@
 
         <service
             android:name="com.geospark.example.service.GSImplicitService"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+            android:exported="false" />
+
     </application>
 
 </manifest>

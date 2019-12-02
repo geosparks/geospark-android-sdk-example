@@ -1,47 +1,48 @@
 package com.geospark.example.service;
 
-import android.app.job.JobParameters;
-import android.app.job.JobService;
+import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.IBinder;
 
+public class GSImplicitService extends Service {
+    private LocationReceiver mLocationReceiver;
 
-import androidx.annotation.RequiresApi;
-
-import com.geospark.example.Util;
-
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class GSImplicitService extends JobService {
-    LocationReceiver mLocationReceiver;
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mLocationReceiver = new LocationReceiver();
+        register();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     @Override
-    public boolean onStartJob(JobParameters params) {
-        try {
-            registerReceiver(mLocationReceiver, new IntentFilter("com.geospark.android.RECEIVED"));
-        } catch (Exception e) {
+    public void onDestroy() {
+        super.onDestroy();
+        unRegister();
+    }
+
+    private void register() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mLocationReceiver = new LocationReceiver();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction("com.geospark.android.RECEIVED");
+            registerReceiver(mLocationReceiver, intentFilter);
         }
-        return true;
     }
 
-    @Override
-    public boolean onStopJob(JobParameters params) {
-        try {
+    private void unRegister() {
+        if (mLocationReceiver != null) {
             unregisterReceiver(mLocationReceiver);
-            Util.locationJob(this);
-        } catch (Exception e) {
         }
-        return true;
     }
 }
