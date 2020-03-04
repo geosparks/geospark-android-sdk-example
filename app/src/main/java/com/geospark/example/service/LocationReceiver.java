@@ -3,10 +3,11 @@ package com.geospark.example.service;
 import android.content.Context;
 import android.location.Location;
 
-import com.geospark.lib.location.services.GeoSparkReceiver;
+
 import com.geospark.lib.model.GeoSparkError;
 import com.geospark.lib.model.GeoSparkUser;
 import com.geospark.example.Util;
+import com.geospark.lib.services.GeoSparkReceiver;
 
 public class LocationReceiver extends GeoSparkReceiver {
 
