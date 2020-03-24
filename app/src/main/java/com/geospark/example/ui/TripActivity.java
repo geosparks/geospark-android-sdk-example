@@ -3,7 +3,6 @@ package com.geospark.example.ui;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
-
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -16,11 +15,9 @@ import com.geospark.example.R;
 import com.geospark.example.Util;
 import com.geospark.example.adapter.TripAdapter;
 import com.geospark.lib.GeoSpark;
-import com.geospark.lib.callback.GeoSparkTripsCallBack;
-import com.geospark.lib.model.GeoSparkActiveTrips;
+import com.geospark.lib.callback.GeoSparkTripCallBack;
 import com.geospark.lib.model.GeoSparkError;
-
-import java.util.List;
+import com.geospark.lib.model.GeoSparkTrip;
 
 public class TripActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
@@ -46,12 +43,12 @@ public class TripActivity extends AppCompatActivity {
 
     public void getActiveTrips() {
         showProgressDialog();
-        GeoSpark.activeTrips(this, new GeoSparkTripsCallBack() {
+        GeoSpark.activeTrips(this, new GeoSparkTripCallBack() {
             @Override
-            public void onSuccess(List<GeoSparkActiveTrips> geoSparkActiveTrips) {
+            public void onSuccess(GeoSparkTrip geoSparkTrip) {
                 stopProgressDialog();
-                if (geoSparkActiveTrips.size() != 0) {
-                    mAdapter.addAllItem(geoSparkActiveTrips);
+                if (geoSparkTrip.getGeoSparkActiveTrips().size() != 0) {
+                    mAdapter.addAllItem(geoSparkTrip.getGeoSparkActiveTrips());
                 } else {
                     Util.showToast(TripActivity.this, "No trips available");
                 }

@@ -2,6 +2,7 @@ package com.geospark.example.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,10 +19,10 @@ import com.geospark.example.service.GSImplicitService;
 import com.geospark.example.storage.GSPreferences;
 import com.geospark.lib.GeoSpark;
 import com.geospark.lib.callback.GeoSparkCallBack;
-import com.geospark.lib.callback.GeoSparkEventsCallback;
 import com.geospark.lib.callback.GeoSparkLogoutCallBack;
+import com.geospark.lib.callback.GeoSparkTripCallBack;
 import com.geospark.lib.model.GeoSparkError;
-import com.geospark.lib.model.GeoSparkEvents;
+import com.geospark.lib.model.GeoSparkTrip;
 import com.geospark.lib.model.GeoSparkUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLogout.setOnClickListener(this);
         init();
     }
-
+    
     private void init() {
         if (GSPreferences.getUserId(this) != null) {
             mUserID.setText(GSPreferences.getUserId(this));
@@ -171,10 +172,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void toggleEvents(String userId) {
-        GeoSpark.toggleEvents(this, true, true, true, new GeoSparkEventsCallback() {
+    private void toggleEvents(final String userId) {
+        GeoSpark.toggleEvents(this, true, true, true, new GeoSparkCallBack() {
             @Override
-            public void onSuccess(GeoSparkEvents geoSparkEvents) {
+            public void onSuccess(GeoSparkUser geoSparkUser) {
                 stopProgressDialog();
                 successView();
                 mUserID.setText(userId);
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void setDescription(String description) {
+    private void setDescription(final String description) {
         GeoSpark.setDescription(this, description, new GeoSparkCallBack() {
             @Override
             public void onSuccess(GeoSparkUser geoSparkUser) {

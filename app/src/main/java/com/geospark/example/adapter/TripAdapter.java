@@ -47,7 +47,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ItemHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
+    public void onBindViewHolder(final @NonNull ItemHolder holder, final int position) {
         final GeoSparkActiveTrips item = mTripList.get(position);
         holder.mTxtId.setText(item.getTripId());
         try {

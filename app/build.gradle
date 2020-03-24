@@ -17,10 +17,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 dependencies {
@@ -33,5 +29,5 @@ dependencies {
         -------------------
         Step 1 : Install SDK
     */
-    implementation 'com.geospark.android:geospark:2.2.4'
+    implementation 'com.geospark.android:geospark:2.2.5'
 }
