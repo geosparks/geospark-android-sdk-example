@@ -6,6 +6,8 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.IBinder;
 
+import com.geospark.example.NotificationHelper;
+
 public class GSImplicitService extends Service {
     private LocationReceiver mLocationReceiver;
 
@@ -17,6 +19,9 @@ public class GSImplicitService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(NotificationHelper.NOTIFICATION_ID, NotificationHelper.showNotification(this));
+        }
         register();
     }
 
@@ -28,16 +33,15 @@ public class GSImplicitService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        NotificationHelper.cancelNotification(this);
         unRegister();
     }
 
     private void register() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mLocationReceiver = new LocationReceiver();
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction("com.geospark.android.RECEIVED");
-            registerReceiver(mLocationReceiver, intentFilter);
-        }
+        mLocationReceiver = new LocationReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.geospark.android.RECEIVED");
+        registerReceiver(mLocationReceiver, intentFilter);
     }
 
     private void unRegister() {

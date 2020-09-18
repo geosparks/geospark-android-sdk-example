@@ -42,14 +42,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
-        <receiver
-            android:name="com.geospark.example.service.LocationReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.geospark.android.RECEIVED" />
-            </intent-filter>
-        </receiver>
-
         <service
             android:name="com.geospark.example.service.GSImplicitService"
             android:exported="false" />

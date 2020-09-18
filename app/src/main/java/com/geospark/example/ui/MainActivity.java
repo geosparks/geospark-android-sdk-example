@@ -38,13 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mLogout;
     private ProgressDialog progressDialog;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startService(new Intent(this, GSImplicitService.class));
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLogout.setOnClickListener(this);
         init();
     }
-    
+
     private void init() {
         if (GSPreferences.getUserId(this) != null) {
             mUserID.setText(GSPreferences.getUserId(this));
@@ -112,9 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.textView_startlocation:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startService(new Intent(this, GSImplicitService.class));
-                }
+                startService(new Intent(this, GSImplicitService.class));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     startTrackingQ();
                 } else {
