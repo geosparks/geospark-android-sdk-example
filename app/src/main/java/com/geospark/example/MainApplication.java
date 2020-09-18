@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.geospark.lib.GeoSpark;
 
+
 public class MainApplication extends Application {
     /*
         Quick start:
@@ -13,6 +14,6 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        GeoSpark.initialize(this, "YOUR-PUBLISHABLE-KEY");
+        GeoSpark.initialize(this, "YOUR-PUBLISHABLE-KEY",null);
     }
 }

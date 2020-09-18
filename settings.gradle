@@ -1,1 +1,2 @@
+include ':geospark'
 include ':app'
