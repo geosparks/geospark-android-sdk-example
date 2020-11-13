@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">GeoSpark</string>
+    <string name="getuser">Get user</string>
+    <string name="createuser">Create user</string>
+    <string name="enter_userid">Enter userId</string>
+    <string name="enter_description">Enter description</string>
+    <string name="logout">Logout</string>
+    <string name="set_description">Set description</string>
+    <string name="geofence_events">Geofence Events</string>
+    <string name="trip_events">Trip Events</string>
+    <string name="activity_events">Location Events</string>
+    <string name="events">Events</string>
+    <string name="toggle_events">Toggle events</string>
+    <string name="get_events">Get events</string>
+    <string name="tracking">Tracking</string>
+    <string name="high">Active</string>
+    <string name="balanced">Reactive</string>
+    <string name="batterysaver">Passive</string>
+    <string name="custom">Custom</string>
+    <string name="start_tracking">Start tracking</string>
+    <string name="stop_tracking">Stop tracking</string>
+    <string name="image">image</string>
+    <string name="nearby_events">NearBy Events</string>
+    <string name="trip">Trip</string>
+    <string name="start_end_trip"><![CDATA[Start & End Trip]]></string>
+    <string name="distance_filter">Enter distance filter</string>
+    <string name="subscribe_location">Subscribe location</string>
+    <string name="listener">Listener</string>
+    <string name="subscribe_events">Subscribe Events</string>
+    <string name="events_listener">Events Listener</string>
+    <string name="location_listener">Location Listener</string>
+    <string name="enter_geofenceradius">Enter stop duration</string>
+    <string name="create_trip">Create trip</string>
+</resources>
