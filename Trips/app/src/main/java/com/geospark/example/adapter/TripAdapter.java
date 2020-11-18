@@ -1,5 +1,6 @@
 package com.geospark.example.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,122 +8,286 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geospark.example.R;
-import com.geospark.example.Util;
 import com.geospark.example.ui.TripActivity;
 import com.geospark.lib.GeoSpark;
+import com.geospark.lib.callback.GeoSparkDeleteTripCallback;
+import com.geospark.lib.callback.GeoSparkSyncTripCallback;
 import com.geospark.lib.callback.GeoSparkTripCallback;
 import com.geospark.lib.models.ActiveTrips;
 import com.geospark.lib.models.GeoSparkError;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ItemHolder> {
 
-    private TripActivity mActivity;
-    private List<ActiveTrips> mTripList = new ArrayList<>();
+    private TripActivity activity;
+    private List<ActiveTrips> lists = new ArrayList<>();
 
     public TripAdapter(TripActivity activity) {
-        this.mActivity = activity;
+        this.activity = activity;
     }
 
-    public void addAllItem(List<ActiveTrips> lst) {
-        mTripList.clear();
-        mTripList.addAll(lst);
+    public void addList(List<ActiveTrips> lists) {
+        this.lists.clear();
+        this.lists.addAll(lists);
         notifyDataSetChanged();
     }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemHolder vh;
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_item, parent, false);
-        vh = new ItemHolder(v);
-        return vh;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_trip, parent, false);
+        return new ItemHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final @NonNull ItemHolder holder, final int position) {
-        final ActiveTrips item = mTripList.get(position);
-        holder.mTxtId.setText(item.getTripId());
-        try {
-            holder.mTxtDate.setText(Util.utcToLocal(item.getUpdatedAt()));
-        } catch (ParseException e) {
+    public void onBindViewHolder(final ItemHolder holder, final int position) {
+        final ActiveTrips activeTrips = lists.get(position);
+        holder.mTxtTripId.setText(activeTrips.getTripId());
+        holder.mTxtDate.setText(activeTrips.getUpdatedAt());
+        if (!TextUtils.isEmpty(activeTrips.getSyncStatus())) {
+            holder.mTxtSyncStatus.setText("Trip status: " + activeTrips.getSyncStatus());
         }
-        if (item.isStarted()) {
-            hideView(holder.mTxtStart);
-            showView(holder.mTxtStop);
-            holder.mTxtStop.setText("End trip");
+        if (activeTrips.getEnded()) {
+            holder.mTxtStart.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+            holder.mTxtResume.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+            holder.mTxtPause.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+            holder.mTxtStop.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+            holder.mTxtForceStop.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+        } else if (activeTrips.isStarted()) {
+            if (activeTrips.isPaused()) {
+                holder.mTxtStart.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+                holder.mTxtResume.setTextColor(activity.getResources().getColor(R.color.colorBlack));
+                holder.mTxtPause.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+                holder.mTxtStop.setTextColor(activity.getResources().getColor(R.color.colorBlack));
+                holder.mTxtForceStop.setTextColor(activity.getResources().getColor(R.color.colorBlack));
+            } else {
+                holder.mTxtStart.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+                holder.mTxtResume.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+                holder.mTxtPause.setTextColor(activity.getResources().getColor(R.color.colorBlack));
+                holder.mTxtStop.setTextColor(activity.getResources().getColor(R.color.colorBlack));
+                holder.mTxtForceStop.setTextColor(activity.getResources().getColor(R.color.colorBlack));
+            }
         } else {
-            showView(holder.mTxtStart);
-            hideView(holder.mTxtStop);
-            holder.mTxtStart.setText("Start trip");
+            holder.mTxtStart.setTextColor(activity.getResources().getColor(R.color.colorBlack));
+            holder.mTxtResume.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+            holder.mTxtPause.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+            holder.mTxtStop.setTextColor(activity.getResources().getColor(R.color.colorBorder));
+            holder.mTxtForceStop.setTextColor(activity.getResources().getColor(R.color.colorBorder));
         }
-        holder.mTxtStart.setOnClickListener(new View.OnClickListener() {
+        holder.mTxtSync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideView(holder.mTxtStart);
-                hideView(holder.mTxtStop);
-                showView(holder.mProgressBar);
-                if (!GeoSpark.checkLocationPermission()) {
-                    GeoSpark.requestLocationPermission(mActivity);
-                } else if (!GeoSpark.checkLocationServices()) {
-                    GeoSpark.requestLocationServices(mActivity);
-                } else {
-                    GeoSpark.startTrip(item.getTripId(), null, new GeoSparkTripCallback() {
-                        @Override
-                        public void onSuccess(String geoSparkTrip) {
-                            success(" Trip started ");
-                            hideView(holder.mProgressBar);
-                            mActivity.getActiveTrips();
-                        }
+                GeoSpark.syncTrip(activeTrips.getTripId(), new GeoSparkSyncTripCallback() {
+                    @Override
+                    public void onSuccess(String msg) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        removeItem(position);
+                        activity.refreshList();
+                    }
 
-                        @Override
-                        public void onFailure(GeoSparkError geoSparkError) {
-                            hideView(holder.mProgressBar);
-                            showView(holder.mTxtStart);
-                            hideView(holder.mTxtStop);
-                            failure(geoSparkError);
-                        }
-                    });
-                }
+                    @Override
+                    public void onFailure(GeoSparkError error) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        Toast.makeText(activity, "Trip Sync: " + activeTrips.getTripId() + " " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        holder.mTxtDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showView(holder.mProgressBar);
+                hideView(holder.mTxtStart);
+                hideView(holder.mTxtResume);
+                hideView(holder.mTxtPause);
+                hideView(holder.mTxtStop);
+                hideView(holder.mTxtForceStop);
+                GeoSpark.deleteTrip(activeTrips.getTripId(), new GeoSparkDeleteTripCallback() {
+                    @Override
+                    public void onSuccess(String msg) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        removeItem(position);
+                        activity.refreshList();
+                    }
+
+                    @Override
+                    public void onFailure(GeoSparkError error) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        Toast.makeText(activity, "Trip deleted: " + activeTrips.getTripId() + " " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
+        holder.mTxtStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showView(holder.mProgressBar);
+                hideView(holder.mTxtStart);
+                hideView(holder.mTxtResume);
+                hideView(holder.mTxtPause);
+                hideView(holder.mTxtStop);
+                hideView(holder.mTxtForceStop);
+                GeoSpark.startTrip(activeTrips.getTripId(), null, new GeoSparkTripCallback() {
+                    @Override
+                    public void onSuccess(String msg) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        activity.refreshList();
+                    }
+
+                    @Override
+                    public void onFailure(GeoSparkError error) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        Toast.makeText(activity, "Trip started: " + activeTrips.getTripId() + " " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        holder.mTxtResume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GeoSpark.resumeTrip(activeTrips.getTripId(), new GeoSparkTripCallback() {
+                    @Override
+                    public void onSuccess(String msg) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        activity.refreshList();
+                    }
+
+                    @Override
+                    public void onFailure(GeoSparkError error) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        Toast.makeText(activity, "Trip resume: " + activeTrips.getTripId() + " " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        holder.mTxtPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GeoSpark.pauseTrip(activeTrips.getTripId(), new GeoSparkTripCallback() {
+                    @Override
+                    public void onSuccess(String msg) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        activity.refreshList();
+                    }
+
+                    @Override
+                    public void onFailure(GeoSparkError error) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        Toast.makeText(activity, "Trip pause: " + activeTrips.getTripId() + " " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         holder.mTxtStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideView(holder.mTxtStart);
-                hideView(holder.mTxtStop);
-                showView(holder.mProgressBar);
-                if (!GeoSpark.checkLocationPermission()) {
-                    GeoSpark.requestLocationPermission(mActivity);
-                } else if (!GeoSpark.checkLocationServices()) {
-                    GeoSpark.requestLocationServices(mActivity);
-                } else {
-                    GeoSpark.stopTrip(item.getTripId(), new GeoSparkTripCallback() {
+                GeoSpark.stopTrip(activeTrips.getTripId(), new GeoSparkTripCallback() {
+                    @Override
+                    public void onSuccess(String msg) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        activity.refreshList();
+                    }
 
-                        @Override
-                        public void onSuccess(String geoSparkTrip) {
-                            success(" Trip ended ");
-                            hideView(holder.mProgressBar);
-                            removeItem(position);
-                            mActivity.getActiveTrips();
-                        }
+                    @Override
+                    public void onFailure(GeoSparkError error) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        Toast.makeText(activity, "Trip stop: " + activeTrips.getTripId() + " " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
-                        @Override
-                        public void onFailure(GeoSparkError geoSparkError) {
-                            hideView(holder.mProgressBar);
-                            showView(holder.mTxtStart);
-                            showView(holder.mTxtStop);
-                            failure(geoSparkError);
-                        }
-                    });
-                }
+        holder.mTxtForceStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GeoSpark.forceStopTrip(activeTrips.getTripId(), new GeoSparkTripCallback() {
+                    @Override
+                    public void onSuccess(String msg) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        activity.refreshList();
+                    }
+
+                    @Override
+                    public void onFailure(GeoSparkError error) {
+                        hideView(holder.mProgressBar);
+                        showView(holder.mTxtStart);
+                        showView(holder.mTxtResume);
+                        showView(holder.mTxtPause);
+                        showView(holder.mTxtStop);
+                        showView(holder.mTxtForceStop);
+                        Toast.makeText(activity, "Trip force stop: " + activeTrips.getTripId() + " " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -132,42 +297,46 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ItemHolder> {
     }
 
     private void hideView(View view) {
-        view.setVisibility(View.INVISIBLE);
-    }
-
-    private void success(String msg) {
-        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    private void failure(GeoSparkError geoSparkError) {
-        Toast.makeText(mActivity, geoSparkError.getCode() + " " + geoSparkError.getMessage(), Toast.LENGTH_SHORT).show();
+        view.setVisibility(View.GONE);
     }
 
     private void removeItem(int position) {
-        mTripList.remove(position);
+        lists.remove(position);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mTripList.size();
+        return lists.size();
     }
 
-    public class ItemHolder extends RecyclerView.ViewHolder {
+    class ItemHolder extends RecyclerView.ViewHolder {
 
-        private TextView mTxtId;
+        private TextView mTxtTripId;
         private TextView mTxtDate;
         private TextView mTxtStart;
+        private TextView mTxtResume;
+        private TextView mTxtPause;
         private TextView mTxtStop;
+        private TextView mTxtForceStop;
+        private TextView mTxtSync;
+        private TextView mTxtSyncStatus;
+        private TextView mTxtDelete;
         private ProgressBar mProgressBar;
 
         ItemHolder(View itemView) {
             super(itemView);
-            mTxtId = itemView.findViewById(R.id.txt_id);
+            mTxtTripId = itemView.findViewById(R.id.txt_trip_id);
             mTxtDate = itemView.findViewById(R.id.txt_date);
             mTxtStart = itemView.findViewById(R.id.txt_start);
+            mTxtResume = itemView.findViewById(R.id.txt_resume);
+            mTxtPause = itemView.findViewById(R.id.txt_pause);
             mTxtStop = itemView.findViewById(R.id.txt_stop);
-            mProgressBar = itemView.findViewById(R.id.pb);
+            mTxtForceStop = itemView.findViewById(R.id.txt_force_stop);
+            mTxtSync = itemView.findViewById(R.id.txt_sync);
+            mTxtSyncStatus = itemView.findViewById(R.id.txt_sync_status);
+            mTxtDelete = itemView.findViewById(R.id.txt_delete);
+            mProgressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 }

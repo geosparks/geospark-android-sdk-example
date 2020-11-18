@@ -8,7 +8,7 @@ import android.os.IBinder;
 
 import com.geospark.example.NotificationHelper;
 
-public class GSImplicitService extends Service {
+public class ForegroundService extends Service {
     private LocationReceiver mLocationReceiver;
 
     @Override

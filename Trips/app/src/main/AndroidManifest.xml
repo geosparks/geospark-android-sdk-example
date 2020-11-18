@@ -17,34 +17,23 @@
             android:required="false" />
 
         <activity
-            android:name="com.geospark.example.ui.SplashActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar">
+            android:name=".ui.LoginActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="com.geospark.example.ui.MainActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.geospark.example.ui.TripActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
-
-        <service
-            android:name="com.geospark.example.service.GSImplicitService"
-            android:exported="false" />
+            android:name=".ui.TripActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

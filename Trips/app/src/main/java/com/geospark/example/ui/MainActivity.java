@@ -1,215 +1,121 @@
 package com.geospark.example.ui;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.view.Window;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ProgressBar;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.geospark.example.R;
-import com.geospark.example.Util;
-import com.geospark.example.service.GSImplicitService;
-import com.geospark.example.storage.GSPreferences;
+import com.geospark.example.service.ForegroundService;
+import com.geospark.example.storage.GeoSparkPreferences;
 import com.geospark.lib.GeoSpark;
-import com.geospark.lib.callback.GeoSparkCallBack;
-import com.geospark.lib.callback.GeoSparkCallback;
-import com.geospark.lib.callback.GeoSparkLogoutCallBack;
+import com.geospark.lib.GeoSparkTrackingMode;
+import com.geospark.lib.callback.GeoSparkCreateTripCallback;
 import com.geospark.lib.callback.GeoSparkLogoutCallback;
-import com.geospark.lib.model.GeoSparkError;
-import com.geospark.lib.model.GeoSparkUser;
 import com.geospark.lib.models.GeoSparkError;
-import com.geospark.lib.models.GeoSparkUser;
+import com.geospark.lib.models.createtrip.GeoSparkCreateTrip;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView mCreateUser;
-    private EditText mEdtUserID;
-    private TextView mGetUser;
-    private TextView mUserID, mDesc;
-    private EditText mEdtDescription;
-    private TextView mSetDescription;
-    private TextView mStartLocation;
-    private TextView mStopLocation;
-    private TextView mTrip;
-    private TextView mLogout;
-    private ProgressDialog progressDialog;
+
+    private ProgressBar progressBar;
+    private CheckBox ckOffline;
+    private RadioGroup mRadioGroup;
+    private Button btnStartTracking, btnStopTracking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
-        mCreateUser = findViewById(R.id.textView_create);
-        mEdtUserID = findViewById(R.id.edt_userid);
-        mEdtDescription = findViewById(R.id.edt_description);
-        mSetDescription = findViewById(R.id.textView_description);
-        mDesc = findViewById(R.id.txt_desc);
-        mUserID = findViewById(R.id.txt_userid);
-        mGetUser = findViewById(R.id.textView_getuser);
-        mStartLocation = findViewById(R.id.textView_startlocation);
-        mStopLocation = findViewById(R.id.textView_stoplocation);
-        mTrip = findViewById(R.id.trip);
-        mLogout = findViewById(R.id.textView_logout);
-
-        mCreateUser.setOnClickListener(this);
-        mGetUser.setOnClickListener(this);
-        mStartLocation.setOnClickListener(this);
-        mStopLocation.setOnClickListener(this);
-        mTrip.setOnClickListener(this);
-        mSetDescription.setOnClickListener(this);
-        mLogout.setOnClickListener(this);
-        init();
-    }
-
-    private void init() {
-        if (GSPreferences.getUserId(this) != null) {
-            mUserID.setText(GSPreferences.getUserId(this));
-        }
-        if (GSPreferences.getDescription(this) != null) {
-            mDesc.setText(GSPreferences.getDescription(this));
-        }
+        setContentView(R.layout.activity_home);
         GeoSpark.disableBatteryOptimization();
-        checkView();
+
+        progressBar = findViewById(R.id.progressbar);
+        mRadioGroup = findViewById(R.id.radioGroup);
+        btnStartTracking = findViewById(R.id.btnStartTracking);
+        btnStopTracking = findViewById(R.id.btnStopTracking);
+        ckOffline = findViewById(R.id.ckOffline);
+        Button btnCreateTrip = findViewById(R.id.btnCreateTrip);
+        Button btnLogout = findViewById(R.id.btnLogout);
+        Button btnTrip = findViewById(R.id.btnTrip);
+
+        btnStartTracking.setOnClickListener(this);
+        btnStopTracking.setOnClickListener(this);
+        btnLogout.setOnClickListener(this);
+        btnTrip.setOnClickListener(this);
+        btnCreateTrip.setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-            case R.id.textView_create:
-                showProgressDialog("Creating User...");
-                createUser();
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnStartTracking:
+                tracking();
                 break;
-
-            case R.id.textView_getuser:
-                if (mEdtUserID.getText().toString().trim().length() != 0) {
-                    showProgressDialog("Starting Session...");
-                    getUser(mEdtUserID.getText().toString());
-                } else {
-                    Util.showToast(this, "Enter user id");
-                }
-                break;
-
-            case R.id.textView_description:
-                if (mEdtDescription.getText().toString().trim().length() != 0) {
-                    showProgressDialog("Description...");
-                    setDescription(mEdtDescription.getText().toString());
-                } else {
-                    Util.showToast(this, "Enter description");
-                }
-                break;
-
-            case R.id.textView_startlocation:
-                startService(new Intent(this, GSImplicitService.class));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    startTrackingQ();
-                } else {
-                    startTracking();
-                }
-                break;
-
-            case R.id.textView_stoplocation:
-                stopService(new Intent(this, GSImplicitService.class));
+            case R.id.btnStopTracking:
                 stopTracking();
                 break;
-
-            case R.id.trip:
-                trip();
+            case R.id.btnCreateTrip:
+                createTrip();
                 break;
-
-            case R.id.textView_logout:
+            case R.id.btnTrip:
+                startActivity(new Intent(this, TripActivity.class).putExtra("OFFLINE", ckOffline.isChecked()));
+                break;
+            case R.id.btnLogout:
                 logout();
                 break;
         }
     }
 
-    /*
-        Quick start:
-        -------------------
-        Step 3: Create user
-    */
-    private void createUser() {
-        GeoSpark.createUser(mEdtDescription.getText().toString(), new GeoSparkCallback() {
+    private void show() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hide() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void createTrip() {
+        show();
+        GeoSpark.createTrip(null, null, ckOffline.isChecked(), new GeoSparkCreateTripCallback() {
             @Override
-            public void onSuccess(GeoSparkUser geoSparkUser) {
-                toggleEvents(geoSparkUser.getUserId());
+            public void onSuccess(GeoSparkCreateTrip geoSparkCreateTrip) {
+                hide();
             }
 
             @Override
-            public void onFailure(GeoSparkError geoSparkError) {
-                stopProgressDialog();
-                failureView();
+            public void onFailure(GeoSparkError status) {
+                hide();
             }
         });
     }
 
-    private void getUser(String userId) {
-        GeoSpark.getUser(userId, new GeoSparkCallback() {
-            @Override
-            public void onSuccess(GeoSparkUser geoSparkUser) {
-                toggleEvents(geoSparkUser.getUserId());
-            }
-
-            @Override
-            public void onFailure(GeoSparkError geoSparkError) {
-                stopProgressDialog();
-                failureView();
-            }
-        });
+    private void tracking() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            checkPermissionsQ();
+        } else {
+            checkPermissions();
+        }
     }
 
-    private void toggleEvents(final String userId) {
-        GeoSpark.toggleEvents(true, true, true, true, new GeoSparkCallback() {
-            @Override
-            public void onSuccess(GeoSparkUser geoSparkUser) {
-                stopProgressDialog();
-                successView();
-                mUserID.setText(userId);
-                GSPreferences.setUserId(MainActivity.this, userId);
-                Util.showToast(MainActivity.this, "User created successfully");
-            }
-
-            @Override
-            public void onFailure(GeoSparkError geoSparkError) {
-                stopProgressDialog();
-                failureView();
-            }
-        });
-    }
-
-    private void setDescription(final String description) {
-        GeoSpark.setDescription(description);
-    }
-
-    /*
-       Quick start:
-       -------------------
-       Step 4: Start Location Tracking
-    */
-    private void startTracking() {
+    private void checkPermissions() {
         if (!GeoSpark.checkLocationPermission()) {
             GeoSpark.requestLocationPermission(this);
         } else if (!GeoSpark.checkLocationServices()) {
             GeoSpark.requestLocationServices(this);
         } else {
-            GeoSpark.startTracking(this);
-            GSPreferences.setTrackingView(getApplicationContext(), false, true);
-            checkView();
-            Util.showToast(this, "Tracking Started");
+            startTracking();
         }
     }
 
-    /*
-       Quick start: If above Android 10
-       -------------------
-       Step 4: Start Location Tracking
-    */
-    private void startTrackingQ() {
+    private void checkPermissionsQ() {
         if (!GeoSpark.checkLocationPermission()) {
             GeoSpark.requestLocationPermission(this);
         } else if (!GeoSpark.checkBackgroundLocationPermission()) {
@@ -217,119 +123,100 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (!GeoSpark.checkLocationServices()) {
             GeoSpark.requestLocationServices(this);
         } else {
-            GeoSpark.startTracking();
-            GSPreferences.setTrackingView(getApplicationContext(), false, true);
-            checkView();
-            Util.showToast(this, "Tracking Started");
+            startTracking();
+        }
+    }
+
+    private void startTracking() {
+        int selectedId = mRadioGroup.getCheckedRadioButtonId();
+        if (selectedId == R.id.rbOption1) {
+            GeoSpark.startTracking(GeoSparkTrackingMode.ACTIVE);
+            trackingStatus();
+        } else if (selectedId == R.id.rbOption2) {
+            GeoSpark.startTracking(GeoSparkTrackingMode.REACTIVE);
+            trackingStatus();
+        } else if (selectedId == R.id.rbOption3) {
+            GeoSpark.startTracking(GeoSparkTrackingMode.PASSIVE);
+            trackingStatus();
+        } else if (selectedId == R.id.rbOption4) {
+            GeoSparkTrackingMode geoSparkTrackingMode = new GeoSparkTrackingMode.Builder(30)
+                    .setDesiredAccuracy(GeoSparkTrackingMode.DesiredAccuracy.HIGH)
+                    .build();
+            GeoSpark.startTracking(geoSparkTrackingMode);
+            trackingStatus();
+        } else if (selectedId == R.id.rbOption5) {
+            GeoSparkTrackingMode geoSparkTrackingMode = new GeoSparkTrackingMode.Builder(100, 60)
+                    .setDesiredAccuracy(GeoSparkTrackingMode.DesiredAccuracy.HIGH)
+                    .build();
+            GeoSpark.startTracking(geoSparkTrackingMode);
+            trackingStatus();
+        } else {
+            Toast.makeText(this, "Select tracking optons", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void stopTracking() {
         GeoSpark.stopTracking();
-        GSPreferences.setTrackingView(getApplicationContext(), true, false);
-        checkView();
-        Util.showToast(this, "Tracking Stopped");
+        trackingStatus();
     }
 
-    private void trip() {
-        startActivity(new Intent(this, TripActivity.class));
+    private void trackingStatus() {
+        if (GeoSpark.isLocationTracking()) {
+            startService(new Intent(this, ForegroundService.class));
+            btnStartTracking.setBackground(getResources().getDrawable(R.drawable.bg_button_disable));
+            btnStopTracking.setBackground(getResources().getDrawable(R.drawable.bg_button_enable));
+            btnStartTracking.setEnabled(false);
+            btnStopTracking.setEnabled(true);
+        } else {
+            stopService(new Intent(this, ForegroundService.class));
+            btnStartTracking.setBackground(getResources().getDrawable(R.drawable.bg_button_enable));
+            btnStopTracking.setBackground(getResources().getDrawable(R.drawable.bg_button_disable));
+            btnStartTracking.setEnabled(true);
+            btnStopTracking.setEnabled(false);
+        }
     }
 
     private void logout() {
-        showProgressDialog("Logging out...");
         GeoSpark.logout(new GeoSparkLogoutCallback() {
             @Override
             public void onSuccess(String message) {
-                stopProgressDialog();
-                GSPreferences.setInit(getApplicationContext());
-                initView();
-                checkView();
-                mUserID.setText(null);
-                mDesc.setText(null);
-                GSPreferences.removeItem(MainActivity.this, GSPreferences.USER_ID);
-                GSPreferences.removeItem(MainActivity.this, GSPreferences.DESCRIPTION);
+                GeoSparkPreferences.setSignIn(getApplicationContext(), false);
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
             }
 
             @Override
-            public void onFailure(GeoSparkError geoSparkError) {
-                stopProgressDialog();
+            public void onFailure(GeoSparkError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void initView() {
-        if (!GSPreferences.isInitialized(getApplicationContext())) {
-            GSPreferences.setViewStatus(getApplicationContext(), true, true, false, false);
-        }
-    }
-
-    private void successView() {
-        GSPreferences.setViewStatus(getApplicationContext(), false, false, true, true);
-        checkView();
-    }
-
-    private void failureView() {
-        GSPreferences.setViewStatus(getApplicationContext(), true, true, false, false);
-        checkView();
-    }
-
-    private void checkView() {
-        if (GSPreferences.isCreateViewEnabled(getApplicationContext()) || GSPreferences.isGetUserViewEnabled(getApplicationContext())) {
-            enableView(mCreateUser);
-            enableView(mGetUser);
-            disableView(mSetDescription);
-            disableView(mTrip);
-        } else {
-            disableView(mCreateUser);
-            disableView(mGetUser);
-            enableView(mSetDescription);
-            enableView(mTrip);
-        }
-        if (GSPreferences.isStartTrackingEnabled(getApplicationContext())) {
-            enableView(mStartLocation);
-        } else {
-            disableView(mStartLocation);
-        }
-        if (GSPreferences.isStopTrackingEnabled(getApplicationContext())) {
-            enableView(mStopLocation);
-        } else {
-            disableView(mStopLocation);
-        }
-        if (GSPreferences.isLogoutViewEnabled(getApplicationContext())) {
-            enableView(mLogout);
-        } else {
-            disableView(mLogout);
-        }
-    }
-
-    private void enableView(View view) {
-        view.setBackgroundResource(R.drawable.rounded_bg_enable);
-        view.setEnabled(true);
-    }
-
-    private void disableView(View view) {
-        view.setBackgroundResource(R.drawable.rounded_bg_disable);
-        view.setEnabled(false);
-    }
-
-    private void showProgressDialog(String message) {
-        progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.setMessage(message);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCanceledOnTouchOutside(true);
-        progressDialog.show();
-    }
-
-    private void stopProgressDialog() {
-        if (progressDialog != null) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    progressDialog.dismiss();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case GeoSpark.REQUEST_CODE_LOCATION_PERMISSION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    tracking();
+                } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(this, "Location permission required", Toast.LENGTH_SHORT).show();
                 }
-            }, 1000);
+                break;
+            case GeoSpark.REQUEST_CODE_BACKGROUND_LOCATION_PERMISSION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    tracking();
+                } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(this, "Background Location permission required", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GeoSpark.REQUEST_CODE_LOCATION_ENABLED) {
+            tracking();
         }
     }
 }
