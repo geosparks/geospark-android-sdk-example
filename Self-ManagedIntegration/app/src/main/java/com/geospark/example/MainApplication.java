@@ -14,6 +14,6 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        GeoSpark.initialize(this, "1c46d881b9c505aa6446e97ed4be079a1844e6ec866af58f53675f4d18cb5385");
+        GeoSpark.initialize(this, "YOUR-PUBLISHABLE-KEY");
     }
 }
