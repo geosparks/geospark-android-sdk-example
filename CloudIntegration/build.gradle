@@ -15,6 +15,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://com-geospark-android.s3.amazonaws.com/'
+        }
     }
 }
 

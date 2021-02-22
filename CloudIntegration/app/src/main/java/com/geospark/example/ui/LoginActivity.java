@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GeoSpark.toggleListener(true, true, new GeoSparkCallback() {
             @Override
             public void onSuccess(GeoSparkUser geoSparkUser) {
-                signedIn();
+                signedIn(geoSparkUser.getUserId());
                 hide();
             }
 
@@ -137,8 +137,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void signedIn() {
-        GeoSpark.subscribeLocation();
+    private void signedIn(String userId) {
+        GeoSpark.subscribe(GeoSpark.Subscribe.LOCATION, userId);
         GeoSparkPreferences.setSignIn(this, true);
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();

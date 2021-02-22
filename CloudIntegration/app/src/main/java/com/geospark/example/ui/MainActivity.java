@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnStartTracking:
-                tracking();
+                checkPermissions();
                 break;
             case R.id.btnStopTracking:
                 stopTracking();
@@ -55,31 +55,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void tracking() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            checkPermissionsQ();
-        } else {
-            checkPermissions();
-        }
-    }
-
     private void checkPermissions() {
-        if (!GeoSpark.checkLocationPermission()) {
-            GeoSpark.requestLocationPermission(this);
-        } else if (!GeoSpark.checkLocationServices()) {
+        if (!GeoSpark.checkLocationServices()) {
             GeoSpark.requestLocationServices(this);
-        } else {
-            startTracking();
-        }
-    }
-
-    private void checkPermissionsQ() {
-        if (!GeoSpark.checkLocationPermission()) {
+        } else if (!GeoSpark.checkLocationPermission()) {
             GeoSpark.requestLocationPermission(this);
-        } else if (!GeoSpark.checkBackgroundLocationPermission()) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !GeoSpark.checkBackgroundLocationPermission()) {
             GeoSpark.requestBackgroundLocationPermission(this);
-        } else if (!GeoSpark.checkLocationServices()) {
-            GeoSpark.requestLocationServices(this);
         } else {
             startTracking();
         }
@@ -91,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             GeoSpark.startTracking(GeoSparkTrackingMode.ACTIVE);
             trackingStatus();
         } else if (selectedId == R.id.rbOption2) {
-            GeoSpark.startTracking(GeoSparkTrackingMode.REACTIVE);
+            GeoSpark.startTracking(GeoSparkTrackingMode.BALANCED);
             trackingStatus();
         } else if (selectedId == R.id.rbOption3) {
             GeoSpark.startTracking(GeoSparkTrackingMode.PASSIVE);
@@ -155,14 +137,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (requestCode) {
             case GeoSpark.REQUEST_CODE_LOCATION_PERMISSION:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    tracking();
+                    checkPermissions();
                 } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     Toast.makeText(this, "Location permission required", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case GeoSpark.REQUEST_CODE_BACKGROUND_LOCATION_PERMISSION:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    tracking();
+                    checkPermissions();
                 } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     Toast.makeText(this, "Background Location permission required", Toast.LENGTH_SHORT).show();
                 }
@@ -174,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GeoSpark.REQUEST_CODE_LOCATION_ENABLED) {
-            tracking();
+            checkPermissions();
         }
     }
 }
